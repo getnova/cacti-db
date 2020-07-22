@@ -36,7 +36,7 @@ public final class SpecieEndpointCollection {
         final Genus genus = this.genusRepository.find(id);
         if (genus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "GENUS");
 
-        return new ApiResponse(ApiResponseStatus.OK, this.specieRepository.save(new Specie(name, genus)));
+        return new ApiResponse(ApiResponseStatus.OK, this.specieRepository.update(new Specie(name, genus)));
     }
 
     @ApiEndpoint(id = "update", description = "Update a specie.")

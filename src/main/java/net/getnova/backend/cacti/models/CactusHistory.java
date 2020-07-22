@@ -23,13 +23,13 @@ import java.time.OffsetDateTime;
 public final class CactusHistory extends TableModelAutoId implements JsonSerializable {
 
     @ManyToOne
-    @JoinColumn(name = "cactus_id", nullable = false)
+    @JoinColumn(name = "cactus_id", nullable = false, updatable = false)
     private Cactus cactus;
 
-    @Column(name = "timestamp", nullable = false)
+    @Column(name = "timestamp", nullable = false, updatable = true)
     private OffsetDateTime timestamp;
 
-    @Column(name = "content", nullable = false, length = 2048)
+    @Column(name = "content", nullable = false, updatable = true, length = 2048)
     private String content;
 
     @Override

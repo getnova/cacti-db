@@ -3,7 +3,7 @@ package net.getnova.backend.cacti.reposetories;
 import net.getnova.backend.cacti.models.Cactus;
 import net.getnova.backend.cacti.models.CactusHistory;
 import net.getnova.backend.sql.SqlService;
-import net.getnova.backend.sql.reposetory.SqlRepositoryImpl;
+import net.getnova.backend.sql.repository.SqlRepositoryImpl;
 import org.hibernate.Session;
 
 import javax.inject.Inject;

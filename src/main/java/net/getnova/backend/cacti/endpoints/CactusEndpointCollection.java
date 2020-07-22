@@ -7,11 +7,15 @@ import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
 import net.getnova.backend.cacti.CactiException;
 import net.getnova.backend.cacti.models.Cactus;
+import net.getnova.backend.cacti.models.CactusAcquisition;
+import net.getnova.backend.cacti.models.CactusState;
 import net.getnova.backend.cacti.models.CareGroup;
 import net.getnova.backend.cacti.models.Form;
 import net.getnova.backend.cacti.models.Genus;
 import net.getnova.backend.cacti.models.Specie;
+import net.getnova.backend.cacti.reposetories.CactusAcquisitionRepository;
 import net.getnova.backend.cacti.reposetories.CactusRepository;
+import net.getnova.backend.cacti.reposetories.CactusStateRepository;
 import net.getnova.backend.cacti.reposetories.CareGroupRepository;
 import net.getnova.backend.cacti.reposetories.FormRepository;
 import net.getnova.backend.cacti.reposetories.GenusRepository;
@@ -22,6 +26,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.UUID;
 
 @Singleton
@@ -43,6 +49,12 @@ public final class CactusEndpointCollection {
     @Inject
     private CactusRepository cactusRepository;
 
+    @Inject
+    private CactusAcquisitionRepository cactusAcquisitionRepository;
+
+    @Inject
+    private CactusStateRepository cactusStateRepository;
+
     @ApiEndpoint(id = "list", description = "Lists all cacti.")
     private ApiResponse list() {
         return new ApiResponse(ApiResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.list(), cactus -> cactus.serialize(true)));
@@ -57,8 +69,8 @@ public final class CactusEndpointCollection {
 
     @ApiEndpoint(id = "add", description = "Add a cactus.")
     private ApiResponse add(@ApiParameter(id = "number", description = "The number of the cactus.") final String number,
-                            @ApiParameter(id = "subId", description = "The id of the sub type.") final UUID subId,
-                            @ApiParameter(id = "subType", description = "The type of the sub type.") final String subType) {
+                            @ApiParameter(id = "subId", description = "The id of the sub type.", required = false) final UUID subId,
+                            @ApiParameter(id = "subType", description = "The type of the sub type.", required = false) final String subType) {
 
         final Cactus cactus = new Cactus(number);
 
@@ -79,45 +91,45 @@ public final class CactusEndpointCollection {
         if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
 
         cactus.setNumber(number);
-        return new ApiResponse(ApiResponseStatus.OK, cactus);
+        return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.update(cactus));
     }
 
     @ApiEndpoint(id = "update", description = "Update a cactus.")
     private ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing cactus.") final UUID id,
                                @ApiParameter(id = "number", description = "The new/old number of the cactus.") final String number,
 
-                               @ApiParameter(id = "subId", description = "The id of the sub type.") final UUID subId,
-                               @ApiParameter(id = "subType", description = "The type of the sub type.") final String subType,
+                               @ApiParameter(id = "subId", description = "The id of the sub type.", required = false) final UUID subId,
+                               @ApiParameter(id = "subType", description = "The type of the sub type.", required = false) final String subType,
 
-                               @ApiParameter(id = "fieldNumber", description = "todo") final String fieldNumber,
-                               @ApiParameter(id = "synonyms", description = "todo") final String synonyms,
+                               @ApiParameter(id = "fieldNumber", description = "todo", required = false) final String fieldNumber,
+                               @ApiParameter(id = "synonyms", description = "todo", required = false) final String synonyms,
 
-                               @ApiParameter(id = "acquisitionTimestamp", description = "todo") final OffsetDateTime acquisitionTimestamp,
-                               @ApiParameter(id = "acquisitionAge", description = "todo") final Duration acquisitionAge,
-                               @ApiParameter(id = "acquisitionPlace", description = "todo") final String acquisitionPlace,
-                               @ApiParameter(id = "acquisitionPlantType", description = "todo") final String acquisitionPlantType,
+                               @ApiParameter(id = "acquisitionTimestamp", description = "todo", required = false) final OffsetDateTime acquisitionTimestamp,
+                               @ApiParameter(id = "acquisitionPlantAge", description = "todo", required = false) final Long acquisitionPlantAge,
+                               @ApiParameter(id = "acquisitionPlace", description = "todo", required = false) final String acquisitionPlace,
+                               @ApiParameter(id = "acquisitionPlantType", description = "todo", required = false) final String acquisitionPlantType,
 
-                               @ApiParameter(id = "stateNoLongerInPossessionTimestamp", description = "todo") final OffsetDateTime stateNoLongerInPossessionTimestamp,
-                               @ApiParameter(id = "stateNoLongerInPossessionReason", description = "todo") final String stateNoLongerInPossessionReason,
-                               @ApiParameter(id = "stateVitality", description = "todo") final String stateVitality,
+                               @ApiParameter(id = "stateNoLongerInPossessionTimestamp", description = "todo", required = false) final OffsetDateTime stateNoLongerInPossessionTimestamp,
+                               @ApiParameter(id = "stateNoLongerInPossessionReason", description = "todo", required = false) final String stateNoLongerInPossessionReason,
+                               @ApiParameter(id = "stateVitality", description = "todo", required = false) final String stateVitality,
 
-                               @ApiParameter(id = "flowerColor", description = "todo") final String flowerColor,
+                               @ApiParameter(id = "flowerColor", description = "todo", required = false) final String flowerColor,
 
-                               @ApiParameter(id = "careGroupId", description = "todo") final String careGroupId,
-                               @ApiParameter(id = "careGroupHome", description = "todo") final String careGroupHome,
-                               @ApiParameter(id = "careGroupSoil", description = "todo") final String careGroupSoil,
+                               @ApiParameter(id = "careGroupId", description = "todo", required = false) final String careGroupId,
+                               @ApiParameter(id = "careGroupHome", description = "todo", required = false) final String careGroupHome,
+                               @ApiParameter(id = "careGroupSoil", description = "todo", required = false) final String careGroupSoil,
 
-                               @ApiParameter(id = "careGroupGrowTimeLight", description = "todo") final String careGroupGrowTimeLight,
-                               @ApiParameter(id = "careGroupGrowTimeAir", description = "todo") final String careGroupGrowTimeAir,
-                               @ApiParameter(id = "careGroupGrowTimeTemperature", description = "todo") final String careGroupGrowTimeTemperature,
-                               @ApiParameter(id = "careGroupGrowTimeHumidity", description = "todo") final String careGroupGrowTimeHumidity,
-                               @ApiParameter(id = "careGroupGrowTimeOther", description = "todo") final String careGroupGrowTimeOther,
+                               @ApiParameter(id = "careGroupGrowTimeLight", description = "todo", required = false) final String careGroupGrowTimeLight,
+                               @ApiParameter(id = "careGroupGrowTimeAir", description = "todo", required = false) final String careGroupGrowTimeAir,
+                               @ApiParameter(id = "careGroupGrowTimeTemperature", description = "todo", required = false) final String careGroupGrowTimeTemperature,
+                               @ApiParameter(id = "careGroupGrowTimeHumidity", description = "todo", required = false) final String careGroupGrowTimeHumidity,
+                               @ApiParameter(id = "careGroupGrowTimeOther", description = "todo", required = false) final String careGroupGrowTimeOther,
 
-                               @ApiParameter(id = "careGroupRestTimeLight", description = "todo") final String careGroupRestTimeLight,
-                               @ApiParameter(id = "careGroupRestTimeAir", description = "todo") final String careGroupRestTimeAir,
-                               @ApiParameter(id = "careGroupRestTimeTemperature", description = "todo") final String careGroupRestTimeTemperature,
-                               @ApiParameter(id = "careGroupRestTimeHumidity", description = "todo") final String careGroupRestTimeHumidity,
-                               @ApiParameter(id = "careGroupRestTimeOther", description = "todo") final String careGroupRestTimeOther) {
+                               @ApiParameter(id = "careGroupRestTimeLight", description = "todo", required = false) final String careGroupRestTimeLight,
+                               @ApiParameter(id = "careGroupRestTimeAir", description = "todo", required = false) final String careGroupRestTimeAir,
+                               @ApiParameter(id = "careGroupRestTimeTemperature", description = "todo", required = false) final String careGroupRestTimeTemperature,
+                               @ApiParameter(id = "careGroupRestTimeHumidity", description = "todo", required = false) String careGroupRestTimeHumidity,
+                               @ApiParameter(id = "careGroupRestTimeOther", description = "todo", required = false) final String careGroupRestTimeOther) {
 
         final Cactus cactus = this.cactusRepository.find(id);
         if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
@@ -134,16 +146,51 @@ public final class CactusEndpointCollection {
         cactus.setSynonyms(synonyms);
 
         /* --> acquisition */
-        cactus.setAcquisitionTimestamp(acquisitionTimestamp);
-        cactus.setAcquisitionAge(acquisitionAge);
-        cactus.setAcquisitionPlace(acquisitionPlace);
-        cactus.setAcquisitionPlantType(acquisitionPlantType);
+        if (acquisitionTimestamp == null
+                && acquisitionPlantAge == null
+                && acquisitionPlace == null
+                && acquisitionPlantType == null) {
+            if (cactus.getAcquisition() != null)
+                this.cactusAcquisitionRepository.delete(cactus.getAcquisition().getId());
+            cactus.setAcquisition(null);
+        } else {
+
+            CactusAcquisition acquisition = cactus.getAcquisition();
+            if (acquisition == null) {
+                acquisition = new CactusAcquisition();
+                cactus.setAcquisition(acquisition);
+                acquisition.setCactus(cactus);
+            }
+
+            acquisition.setTimestamp(acquisitionTimestamp);
+            acquisition.setAge(acquisitionPlantAge == null ? null : Duration.of(acquisitionPlantAge * 30, ChronoUnit.DAYS));
+            acquisition.setPlace(acquisitionPlace);
+            acquisition.setPlantType(acquisitionPlantType);
+
+            this.cactusAcquisitionRepository.saveOrUpdate(acquisition);
+        }
         /* <-- acquisition */
 
         /* --> state */
-        cactus.setStateNoLongerInPossessionTimestamp(stateNoLongerInPossessionTimestamp);
-        cactus.setStateNoLongerInPossessionReason(stateNoLongerInPossessionReason);
-        cactus.setStateVitality(stateVitality);
+        if (stateNoLongerInPossessionTimestamp == null
+                && stateNoLongerInPossessionReason == null
+                && stateVitality == null) {
+            if (cactus.getState() != null) this.cactusStateRepository.delete(cactus.getState().getId());
+            cactus.setState(null);
+        } else {
+            CactusState state = cactus.getState();
+            if (state == null) {
+                state = new CactusState();
+                cactus.setState(state);
+                state.setCactus(cactus);
+            }
+
+            state.setNoLongerInPossessionTimestamp(stateNoLongerInPossessionTimestamp);
+            state.setNoLongerInPossessionReason(stateNoLongerInPossessionReason);
+            state.setVitality(stateVitality);
+
+            this.cactusStateRepository.saveOrUpdate(state);
+        }
         /* <-- state */
 
         cactus.setFlowerColor(flowerColor);
@@ -158,28 +205,28 @@ public final class CactusEndpointCollection {
 
         final boolean careGroupExist = careGroup != null;
 
-        cactus.setCareGroupHome(careGroupExist && careGroup.getHome().equals(careGroupHome) ? null : careGroupHome);
-        cactus.setCareGroupSoil(careGroupExist && careGroup.getSoil().equals(careGroupSoil) ? null : careGroupSoil);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getHome(), careGroupHome) ? null : careGroupHome);
+        cactus.setCareGroupSoil(careGroupExist && Objects.equals(careGroup.getSoil(), careGroupSoil) ? null : careGroupSoil);
 
         /* --> grow time */
-        cactus.setCareGroupHome(careGroupExist && careGroup.getGrowTimeLight().equals(careGroupGrowTimeLight) ? null : careGroupGrowTimeLight);
-        cactus.setCareGroupHome(careGroupExist && careGroup.getGrowTimeAir().equals(careGroupGrowTimeAir) ? null : careGroupGrowTimeAir);
-        cactus.setCareGroupHome(careGroupExist && careGroup.getGrowTimeTemperature().equals(careGroupGrowTimeTemperature) ? null : careGroupGrowTimeTemperature);
-        cactus.setCareGroupHome(careGroupExist && careGroup.getGrowTimeHumidity().equals(careGroupGrowTimeHumidity) ? null : careGroupGrowTimeHumidity);
-        cactus.setCareGroupHome(careGroupExist && careGroup.getGrowTimeOther().equals(careGroupGrowTimeOther) ? null : careGroupGrowTimeOther);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeLight(), careGroupGrowTimeLight) ? null : careGroupGrowTimeLight);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeAir(), careGroupGrowTimeAir) ? null : careGroupGrowTimeAir);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeTemperature(), careGroupGrowTimeTemperature) ? null : careGroupGrowTimeTemperature);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeHumidity(), careGroupGrowTimeHumidity) ? null : careGroupGrowTimeHumidity);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeOther(), careGroupGrowTimeOther) ? null : careGroupGrowTimeOther);
         /* <-- grow time */
 
         /* --> rest time */
-        cactus.setCareGroupHome(careGroupExist && careGroup.getRestTimeLight().equals(careGroupRestTimeLight) ? null : careGroupRestTimeLight);
-        cactus.setCareGroupHome(careGroupExist && careGroup.getRestTimeAir().equals(careGroupRestTimeAir) ? null : careGroupRestTimeAir);
-        cactus.setCareGroupHome(careGroupExist && careGroup.getRestTimeTemperature().equals(careGroupRestTimeTemperature) ? null : careGroupRestTimeTemperature);
-        cactus.setCareGroupHome(careGroupExist && careGroup.getRestTimeHumidity().equals(careGroupRestTimeHumidity) ? null : careGroupRestTimeHumidity);
-        cactus.setCareGroupHome(careGroupExist && careGroup.getRestTimeOther().equals(careGroupRestTimeOther) ? null : careGroupRestTimeOther);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeLight(), careGroupRestTimeLight) ? null : careGroupRestTimeLight);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeAir(), careGroupRestTimeAir) ? null : careGroupRestTimeAir);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeTemperature(), careGroupRestTimeTemperature) ? null : careGroupRestTimeTemperature);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeHumidity(), careGroupRestTimeHumidity) ? null : careGroupRestTimeHumidity);
+        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeOther(), careGroupRestTimeOther) ? null : careGroupRestTimeOther);
         /* <-- rest time */
 
         /* <-- care group */
 
-        return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.save(cactus));
+        return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.update(cactus));
     }
 
     @ApiEndpoint(id = "delete", description = "Delete a cactus.")
@@ -188,7 +235,11 @@ public final class CactusEndpointCollection {
     }
 
     private void setSubType(final Cactus cactus, final UUID subId, final String subType) throws CactiException {
-        switch (subType) {
+        if (subId == null || subType == null) {
+            cactus.setForm(null);
+            cactus.setSpecie(null);
+            cactus.setGenus(null);
+        } else switch (subType) {
             case "GENUS" -> {
                 final Genus genus = this.genusRepository.find(subId);
                 if (genus == null) throw new CactiException("GENUS");

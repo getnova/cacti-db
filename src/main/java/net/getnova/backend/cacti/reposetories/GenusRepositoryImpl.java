@@ -1,7 +1,7 @@
 package net.getnova.backend.cacti.reposetories;
 
 import net.getnova.backend.cacti.models.Genus;
-import net.getnova.backend.sql.reposetory.SqlRepositoryImpl;
+import net.getnova.backend.sql.repository.SqlRepositoryImpl;
 
 import javax.inject.Singleton;
 import java.util.UUID;

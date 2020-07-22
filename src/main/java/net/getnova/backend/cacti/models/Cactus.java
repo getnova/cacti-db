@@ -1,17 +1,20 @@
 package net.getnova.backend.cacti.models;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.getnova.backend.json.JsonBuilder;
 import net.getnova.backend.json.JsonSerializable;
+import net.getnova.backend.json.JsonUtils;
 import net.getnova.backend.sql.model.TableModelAutoId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -44,26 +47,11 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
     @Column(name = "synonyms", nullable = true, updatable = true, length = 1024)
     private String synonyms;
 
-    @Column(name = "acquisition_timestamp", nullable = true, updatable = true)
-    private OffsetDateTime acquisitionTimestamp;
+    @OneToOne
+    private CactusAcquisition acquisition;
 
-    @Column(name = "acquisition_age", nullable = true, updatable = true)
-    private Duration acquisitionAge;
-
-    @Column(name = "acquisition_place", nullable = true, updatable = true, length = 512)
-    private String acquisitionPlace;
-
-    @Column(name = "acquisition_plant_type", nullable = true, updatable = true, length = 512)
-    private String acquisitionPlantType;
-
-    @Column(name = "state_no_longer_in_possession_timestamp", nullable = true, updatable = true)
-    private OffsetDateTime stateNoLongerInPossessionTimestamp;
-
-    @Column(name = "state_no_longer_in_possession_reason", nullable = true, updatable = true)
-    private String stateNoLongerInPossessionReason;
-
-    @Column(name = "state_vitality", nullable = true, updatable = true, length = 128)
-    private String stateVitality;
+    @OneToOne
+    private CactusState state;
 
     @Column(name = "flower_color", nullable = true, updatable = true, length = 128)
     private String flowerColor;
@@ -115,73 +103,72 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
     public JsonElement serialize(final boolean small) {
         if (!small) return this.serialize();
         else return JsonBuilder.create("id", this.getId())
-                .add("genusId", this.getGenus().getId())
-                .add("specieId", this.getSpecie().getId())
-                .add("formId", this.getForm().getId())
+                .add("number", this.getNumber())
+                .add("genusId", this.getGenus() == null ? null : this.getGenus().getId())
+                .add("specieId", this.getSpecie() == null ? null : this.getSpecie().getId())
+                .add("formId", this.getForm() == null ? null : this.getForm().getId())
                 .build();
     }
 
     @Override
     public JsonElement serialize() {
         final CareGroup careGroup = this.getCareGroup();
-        final boolean careGroupExist = careGroup == null;
+        final boolean careGroupNotExist = careGroup == null;
 
         return JsonBuilder.create("id", this.getId())
                 .add("number", this.getNumber())
 
-                .add("genusId", this.getGenus().getId())
-                .add("specieId", this.getSpecie().getId())
-                .add("formId", this.getForm().getId())
+                .add("genus", this.getGenus())
+                .add("specie", this.getSpecie())
+                .add("form", this.getForm())
 
                 .add("fieldNumber", this.getFieldNumber())
                 .add("synonyms", this.getSynonyms())
 
-                .add("acquisition", JsonBuilder.create("timestamp", this.getAcquisitionTimestamp())
-                        .add("age", this.getAcquisitionAge())
-                        .add("place", this.getAcquisitionPlace())
-                        .add("plantType", this.getAcquisitionPlantType()))
+                .add("acquisition", this.getAcquisition())
 
-                .add("state", JsonBuilder.create("noLongerInPossessionTimestamp", this.getStateNoLongerInPossessionTimestamp())
-                        .add("noLongerInPossessionReason", this.getStateNoLongerInPossessionReason())
-                        .add("age", this.getAge())
-                        .add("vitality", this.getStateVitality()))
+                .add("state", this.getState() == null, () -> null,
+                        () -> JsonBuilder.create(JsonUtils.fromJson(JsonUtils.toJson(this.getState()), JsonObject.class))
+                                .add("age", this.getAge()))
 
                 .add("flowerColor", this.getFlowerColor())
 
-                .add("careGroup", JsonBuilder.create("id", careGroupExist, () -> null, careGroup::getId)
-                        .add("home", careGroupExist, () -> null, careGroup::getHome)
-                        .add("soil", careGroupExist, () -> null, careGroup::getSoil)
+                .add("careGroup", JsonBuilder.create("id", careGroupNotExist, () -> null, () -> careGroup.getId())
+                        .add("name", careGroupNotExist, () -> null, () -> careGroup.getName())
+                        .add("home", careGroupNotExist, () -> null, () -> careGroup.getHome())
+                        .add("soil", careGroupNotExist, () -> null, () -> careGroup.getSoil())
 
-                        .add("growTime", JsonBuilder.create("light", careGroupExist
-                                || careGroup.getGrowTimeLight() == null, this::getCareGroupGrowTimeLight, careGroup::getGrowTimeLight)
-                                .add("air", careGroupExist
-                                        || careGroup.getGrowTimeAir() == null, this::getCareGroupGrowTimeAir, careGroup::getGrowTimeAir)
-                                .add("temperature", careGroupExist
-                                        || careGroup.getGrowTimeTemperature() == null, this::getCareGroupGrowTimeTemperature, careGroup::getGrowTimeTemperature)
-                                .add("humidity", careGroupExist
-                                        || careGroup.getGrowTimeHumidity() == null, this::getCareGroupGrowTimeHumidity, careGroup::getGrowTimeHumidity)
-                                .add("other", careGroupExist
-                                        || careGroup.getGrowTimeOther() == null, this::getCareGroupGrowTimeOther, careGroup::getGrowTimeOther))
+                        .add("growTime", JsonBuilder.create("light", careGroupNotExist
+                                || careGroup.getGrowTimeLight() == null, this::getCareGroupGrowTimeLight, () -> careGroup.getGrowTimeLight())
+                                .add("air", careGroupNotExist
+                                        || careGroup.getGrowTimeAir() == null, this::getCareGroupGrowTimeAir, () -> careGroup.getGrowTimeAir())
+                                .add("temperature", careGroupNotExist
+                                        || careGroup.getGrowTimeTemperature() == null, this::getCareGroupGrowTimeTemperature, () -> careGroup.getGrowTimeTemperature())
+                                .add("humidity", careGroupNotExist
+                                        || careGroup.getGrowTimeHumidity() == null, this::getCareGroupGrowTimeHumidity, () -> careGroup.getGrowTimeHumidity())
+                                .add("other", careGroupNotExist
+                                        || careGroup.getGrowTimeOther() == null, this::getCareGroupGrowTimeOther, () -> careGroup.getGrowTimeOther()))
 
-                        .add("restTime", JsonBuilder.create("light", careGroupExist
-                                || careGroup.getRestTimeLight() == null, this::getCareGroupRestTimeLight, careGroup::getRestTimeLight)
-                                .add("air", careGroupExist
-                                        || careGroup.getRestTimeAir() == null, this::getCareGroupRestTimeAir, careGroup::getRestTimeAir)
-                                .add("temperature", careGroupExist
-                                        || careGroup.getRestTimeTemperature() == null, this::getCareGroupRestTimeTemperature, careGroup::getRestTimeTemperature)
-                                .add("humidity", careGroupExist
-                                        || careGroup.getRestTimeHumidity() == null, this::getCareGroupRestTimeHumidity, careGroup::getRestTimeHumidity)
-                                .add("other", careGroupExist
-                                        || careGroup.getRestTimeOther() == null, this::getCareGroupRestTimeOther, careGroup::getRestTimeOther)))
+                        .add("restTime", JsonBuilder.create("light", careGroupNotExist
+                                || careGroup.getRestTimeLight() == null, this::getCareGroupRestTimeLight, () -> careGroup.getRestTimeLight())
+                                .add("air", careGroupNotExist
+                                        || careGroup.getRestTimeAir() == null, this::getCareGroupRestTimeAir, () -> careGroup.getRestTimeAir())
+                                .add("temperature", careGroupNotExist
+                                        || careGroup.getRestTimeTemperature() == null, this::getCareGroupRestTimeTemperature, () -> careGroup.getRestTimeTemperature())
+                                .add("humidity", careGroupNotExist
+                                        || careGroup.getRestTimeHumidity() == null, this::getCareGroupRestTimeHumidity, () -> careGroup.getRestTimeHumidity())
+                                .add("other", careGroupNotExist
+                                        || careGroup.getRestTimeOther() == null, this::getCareGroupRestTimeOther, () -> careGroup.getRestTimeOther())))
 
                 .build();
     }
 
     public Duration getAge() {
-        if (this.getAcquisitionTimestamp() != null && this.getAcquisitionAge() != null) return Duration.between(
-                this.getAcquisitionTimestamp().minus(this.getAcquisitionAge()),
-                this.getStateNoLongerInPossessionTimestamp() == null ? OffsetDateTime.now() : this.getStateNoLongerInPossessionTimestamp()
-        );
+        if (this.getAcquisition().getTimestamp() != null && this.getAcquisition().getAge() != null)
+            return Duration.between(
+                    this.getAcquisition().getTimestamp().minus(this.getAcquisition().getAge()),
+                    this.getState().getNoLongerInPossessionTimestamp() == null ? OffsetDateTime.now() : this.getState().getNoLongerInPossessionTimestamp()
+            );
         return null;
     }
 }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import net.getnova.backend.json.JsonBuilder;
 import net.getnova.backend.json.JsonSerializable;
 import net.getnova.backend.sql.model.TableModel;
-import net.getnova.backend.sql.model.TableModelAutoId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -56,7 +56,7 @@ public final class CactusHistoryEndpointCollection {
         cactusHistory.setTimestamp(timestamp);
         cactusHistory.setContent(content);
 
-        return new ApiResponse(ApiResponseStatus.OK, this.cactusHistoryRepository.save(cactusHistory));
+        return new ApiResponse(ApiResponseStatus.OK, this.cactusHistoryRepository.update(cactusHistory));
     }
 
     @ApiEndpoint(id = "delete", description = "Delete a cactus history entry.")

@@ -48,7 +48,7 @@ public final class FormEndpointCollection {
 
         form.setName(name);
 
-        return new ApiResponse(ApiResponseStatus.OK, this.formRepository.save(form));
+        return new ApiResponse(ApiResponseStatus.OK, this.formRepository.update(form));
     }
 
     @ApiEndpoint(id = "delete", description = "Delete a form.")

@@ -34,7 +34,7 @@ public final class GenusEndpointCollection {
                                @ApiParameter(id = "name", description = "The new name of the genus.") final String name) {
         final Genus genus = this.genusRepository.find(id);
         genus.setName(name);
-        return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.save(genus));
+        return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.update(genus));
     }
 
     @ApiEndpoint(id = "delete", description = "Delete a genus.")
