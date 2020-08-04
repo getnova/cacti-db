@@ -1,11 +1,9 @@
 package net.getnova.backend.cacti.models;
 
-import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.getnova.backend.json.JsonBuilder;
-import net.getnova.backend.json.JsonSerializable;
+import net.getnova.backend.json.JsonTransient;
 import net.getnova.backend.sql.model.TableModel;
 
 import javax.persistence.Column;
@@ -18,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cacti_care_group")
-public final class CareGroup extends TableModel implements JsonSerializable {
+public final class CareGroup extends TableModel {
 
     @Id
     @Column(name = "id", nullable = false, updatable = false, length = 2)
@@ -27,46 +25,51 @@ public final class CareGroup extends TableModel implements JsonSerializable {
     @Column(name = "name", nullable = false, updatable = true, length = 128)
     private String name;
 
+    @JsonTransient
     @Column(name = "home", nullable = false, updatable = true, length = 512)
     private String home;
 
+    @JsonTransient
     @Column(name = "soil", nullable = false, updatable = true, length = 512)
     private String soil;
 
+    @JsonTransient
     @Column(name = "grow_time_light", nullable = true, updatable = true, length = 512)
     private String growTimeLight;
 
+    @JsonTransient
     @Column(name = "grow_time_air", nullable = true, updatable = true, length = 512)
     private String growTimeAir;
 
+    @JsonTransient
     @Column(name = "grow_time_temperature", nullable = true, updatable = true, length = 512)
     private String growTimeTemperature;
 
+    @JsonTransient
     @Column(name = "grow_time_humidity", nullable = true, updatable = true, length = 512)
     private String growTimeHumidity;
 
+    @JsonTransient
     @Column(name = "grow_time_other", nullable = true, updatable = true, length = 512)
     private String growTimeOther;
 
+    @JsonTransient
     @Column(name = "rest_time_light", nullable = true, updatable = true, length = 512)
     private String restTimeLight;
 
+    @JsonTransient
     @Column(name = "rest_time_air", nullable = true, updatable = true, length = 512)
     private String restTimeAir;
 
+    @JsonTransient
     @Column(name = "rest_time_temperature", nullable = true, updatable = true, length = 512)
     private String restTimeTemperature;
 
+    @JsonTransient
     @Column(name = "rest_time_humidity", nullable = true, updatable = true, length = 512)
     private String restTimeHumidity;
 
+    @JsonTransient
     @Column(name = "rest_time_other", nullable = true, updatable = true, length = 512)
     private String restTimeOther;
-
-    @Override
-    public JsonObject serialize() {
-        return JsonBuilder.create("id", this.getId())
-                .add("name", this.getName())
-                .build();
-    }
 }

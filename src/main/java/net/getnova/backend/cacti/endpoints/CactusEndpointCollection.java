@@ -109,7 +109,8 @@ public final class CactusEndpointCollection {
                                @ApiParameter(id = "acquisitionPlace", description = "todo", required = false) final String acquisitionPlace,
                                @ApiParameter(id = "acquisitionPlantType", description = "todo", required = false) final String acquisitionPlantType,
 
-                               @ApiParameter(id = "stateNoLongerInPossessionTimestamp", description = "todo", required = false) final OffsetDateTime stateNoLongerInPossessionTimestamp,
+                               @ApiParameter(id = "stateNoLongerInPossessionTimestamp",
+                                       description = "todo", required = false) final OffsetDateTime stateNoLongerInPossessionTimestamp,
                                @ApiParameter(id = "stateNoLongerInPossessionReason", description = "todo", required = false) final String stateNoLongerInPossessionReason,
                                @ApiParameter(id = "stateVitality", description = "todo", required = false) final String stateVitality,
 
@@ -128,7 +129,7 @@ public final class CactusEndpointCollection {
                                @ApiParameter(id = "careGroupRestTimeLight", description = "todo", required = false) final String careGroupRestTimeLight,
                                @ApiParameter(id = "careGroupRestTimeAir", description = "todo", required = false) final String careGroupRestTimeAir,
                                @ApiParameter(id = "careGroupRestTimeTemperature", description = "todo", required = false) final String careGroupRestTimeTemperature,
-                               @ApiParameter(id = "careGroupRestTimeHumidity", description = "todo", required = false) String careGroupRestTimeHumidity,
+                               @ApiParameter(id = "careGroupRestTimeHumidity", description = "todo", required = false) final String careGroupRestTimeHumidity,
                                @ApiParameter(id = "careGroupRestTimeOther", description = "todo", required = false) final String careGroupRestTimeOther) {
 
         final Cactus cactus = this.cactusRepository.find(id);
@@ -240,28 +241,29 @@ public final class CactusEndpointCollection {
             cactus.setSpecie(null);
             cactus.setGenus(null);
         } else switch (subType) {
-            case "GENUS" -> {
+            case "GENUS":
                 final Genus genus = this.genusRepository.find(subId);
                 if (genus == null) throw new CactiException("GENUS");
                 cactus.setForm(null);
                 cactus.setSpecie(null);
                 cactus.setGenus(genus);
-            }
-            case "SPECIE" -> {
+                break;
+            case "SPECIE":
                 final Specie specie = this.specieRepository.find(subId);
                 if (specie == null) throw new CactiException("SPECIE");
                 cactus.setForm(null);
                 cactus.setSpecie(specie);
                 cactus.setGenus(specie.getGenus());
-            }
-            case "FORM" -> {
+                break;
+            case "FORM":
                 final Form form = this.formRepository.find(subId);
                 if (form == null) throw new CactiException("FORM");
                 cactus.setForm(form);
                 cactus.setSpecie(form.getSpecie());
                 cactus.setGenus(form.getSpecie().getGenus());
-            }
-            default -> throw new CactiException("SUBTYPE");
+                break;
+            default:
+                throw new CactiException("SUBTYPE");
         }
     }
 }
