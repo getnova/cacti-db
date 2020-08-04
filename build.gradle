@@ -28,7 +28,7 @@ dependencies {
     implementation 'net.getnova.backend:nova-injection:edge'
     implementation 'net.getnova.backend:nova-config:edge'
     implementation 'net.getnova.backend:nova-api:edge'
-    implementation 'net.getnova.backend:nova-sql:edge'
+    implementation 'net.getnova.backend:nova-sql:edge_14'
     implementation 'net.getnova.backend:nova-json:edge'
     runtimeOnly 'net.getnova.backend:nova-bootstrap:edge'
 }
