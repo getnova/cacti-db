@@ -16,10 +16,9 @@ tasks.withType(JavaCompile) {
 }
 
 repositories {
-//    maven {
-//        url 'https://repo.rubidium.ml/repository/snapshots/'
-//    }
-    mavenLocal()
+    maven {
+        url "https://dl.bintray.com/getnova/maven"
+    }
     jcenter()
 }
 
