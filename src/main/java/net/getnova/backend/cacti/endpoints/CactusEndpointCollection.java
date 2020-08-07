@@ -7,15 +7,11 @@ import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
 import net.getnova.backend.cacti.CactiException;
 import net.getnova.backend.cacti.models.Cactus;
-import net.getnova.backend.cacti.models.CactusAcquisition;
-import net.getnova.backend.cacti.models.CactusState;
 import net.getnova.backend.cacti.models.CareGroup;
 import net.getnova.backend.cacti.models.Form;
 import net.getnova.backend.cacti.models.Genus;
 import net.getnova.backend.cacti.models.Specie;
-import net.getnova.backend.cacti.reposetories.CactusAcquisitionRepository;
 import net.getnova.backend.cacti.reposetories.CactusRepository;
-import net.getnova.backend.cacti.reposetories.CactusStateRepository;
 import net.getnova.backend.cacti.reposetories.CareGroupRepository;
 import net.getnova.backend.cacti.reposetories.FormRepository;
 import net.getnova.backend.cacti.reposetories.GenusRepository;
@@ -49,12 +45,6 @@ public final class CactusEndpointCollection {
     @Inject
     private CactusRepository cactusRepository;
 
-    @Inject
-    private CactusAcquisitionRepository cactusAcquisitionRepository;
-
-    @Inject
-    private CactusStateRepository cactusStateRepository;
-
     @ApiEndpoint(id = "list", description = "Lists all cacti.")
     private ApiResponse list() {
         return new ApiResponse(ApiResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.list(), cactus -> cactus.serialize(true)));
@@ -80,7 +70,7 @@ public final class CactusEndpointCollection {
             return new ApiResponse(ApiResponseStatus.NOT_FOUND, e.getMessage());
         }
 
-        return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.save(cactus));
+        return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.save(cactus).serialize(true));
     }
 
     @ApiEndpoint(id = "updateNumber", description = "Updates only the number of a cactus.")
@@ -147,51 +137,24 @@ public final class CactusEndpointCollection {
         cactus.setSynonyms(synonyms);
 
         /* --> acquisition */
-        if (acquisitionTimestamp == null
+        cactus.setAcquisition(acquisitionTimestamp == null
                 && acquisitionPlantAge == null
                 && acquisitionPlace == null
-                && acquisitionPlantType == null) {
-            if (cactus.getAcquisition() != null)
-                this.cactusAcquisitionRepository.delete(cactus.getAcquisition().getId());
-            cactus.setAcquisition(null);
-        } else {
-
-            CactusAcquisition acquisition = cactus.getAcquisition();
-            if (acquisition == null) {
-                acquisition = new CactusAcquisition();
-                cactus.setAcquisition(acquisition);
-                acquisition.setCactus(cactus);
-            }
-
-            acquisition.setTimestamp(acquisitionTimestamp);
-            acquisition.setAge(acquisitionPlantAge == null ? null : Duration.of(acquisitionPlantAge * 30, ChronoUnit.DAYS));
-            acquisition.setPlace(acquisitionPlace);
-            acquisition.setPlantType(acquisitionPlantType);
-
-            this.cactusAcquisitionRepository.saveOrUpdate(acquisition);
-        }
+                && acquisitionPlantType == null
+                ? null
+                : new Cactus.Acquisition(acquisitionTimestamp,
+                acquisitionPlantAge == null ? null : Duration.of(acquisitionPlantAge * 30, ChronoUnit.DAYS),
+                acquisitionPlace, acquisitionPlantType));
         /* <-- acquisition */
 
         /* --> state */
-        if (stateNoLongerInPossessionTimestamp == null
+        cactus.setState(stateNoLongerInPossessionTimestamp == null
                 && stateNoLongerInPossessionReason == null
-                && stateVitality == null) {
-            if (cactus.getState() != null) this.cactusStateRepository.delete(cactus.getState().getId());
-            cactus.setState(null);
-        } else {
-            CactusState state = cactus.getState();
-            if (state == null) {
-                state = new CactusState();
-                cactus.setState(state);
-                state.setCactus(cactus);
-            }
-
-            state.setNoLongerInPossessionTimestamp(stateNoLongerInPossessionTimestamp);
-            state.setNoLongerInPossessionReason(stateNoLongerInPossessionReason);
-            state.setVitality(stateVitality);
-
-            this.cactusStateRepository.saveOrUpdate(state);
-        }
+                && stateVitality == null
+                ? null
+                : new Cactus.State(stateNoLongerInPossessionTimestamp,
+                stateNoLongerInPossessionReason,
+                stateVitality));
         /* <-- state */
 
         cactus.setFlowerColor(flowerColor);

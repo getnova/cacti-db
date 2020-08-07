@@ -9,21 +9,15 @@ import net.getnova.backend.cacti.endpoints.FormEndpointCollection;
 import net.getnova.backend.cacti.endpoints.GenusEndpointCollection;
 import net.getnova.backend.cacti.endpoints.SpecieEndpointCollection;
 import net.getnova.backend.cacti.models.Cactus;
-import net.getnova.backend.cacti.models.CactusAcquisition;
 import net.getnova.backend.cacti.models.CactusHistory;
-import net.getnova.backend.cacti.models.CactusState;
 import net.getnova.backend.cacti.models.CareGroup;
 import net.getnova.backend.cacti.models.Form;
 import net.getnova.backend.cacti.models.Genus;
 import net.getnova.backend.cacti.models.Specie;
-import net.getnova.backend.cacti.reposetories.CactusAcquisitionRepository;
-import net.getnova.backend.cacti.reposetories.CactusAcquisitionRepositoryImpl;
 import net.getnova.backend.cacti.reposetories.CactusHistoryRepository;
 import net.getnova.backend.cacti.reposetories.CactusHistoryRepositoryImpl;
 import net.getnova.backend.cacti.reposetories.CactusRepository;
 import net.getnova.backend.cacti.reposetories.CactusRepositoryImpl;
-import net.getnova.backend.cacti.reposetories.CactusStateRepository;
-import net.getnova.backend.cacti.reposetories.CactusStateRepositoryImpl;
 import net.getnova.backend.cacti.reposetories.CareGroupRepository;
 import net.getnova.backend.cacti.reposetories.CareGroupRepositoryImpl;
 import net.getnova.backend.cacti.reposetories.FormRepository;
@@ -65,16 +59,12 @@ public final class CactiDatabase {
         this.sqlService.addEntity(CareGroup.class);
         this.sqlService.addEntity(Cactus.class);
         this.sqlService.addEntity(CactusHistory.class);
-        this.sqlService.addEntity(CactusAcquisition.class);
-        this.sqlService.addEntity(CactusState.class);
         event.getBinder().bind(GenusRepository.class).to(GenusRepositoryImpl.class);
         event.getBinder().bind(SpecieRepository.class).to(SpecieRepositoryImpl.class);
         event.getBinder().bind(FormRepository.class).to(FormRepositoryImpl.class);
         event.getBinder().bind(CareGroupRepository.class).to(CareGroupRepositoryImpl.class);
         event.getBinder().bind(CactusRepository.class).to(CactusRepositoryImpl.class);
         event.getBinder().bind(CactusHistoryRepository.class).to(CactusHistoryRepositoryImpl.class);
-        event.getBinder().bind(CactusAcquisitionRepository.class).to(CactusAcquisitionRepositoryImpl.class);
-        event.getBinder().bind(CactusStateRepository.class).to(CactusStateRepositoryImpl.class);
     }
 
     @InitService

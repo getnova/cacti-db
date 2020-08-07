@@ -11,10 +11,11 @@ import net.getnova.backend.json.JsonUtils;
 import net.getnova.backend.sql.model.TableModelAutoId;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -47,11 +48,11 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
     @Column(name = "synonyms", nullable = true, updatable = true, length = 1024)
     private String synonyms;
 
-    @OneToOne
-    private CactusAcquisition acquisition;
+    @Embedded
+    private Acquisition acquisition;
 
-    @OneToOne
-    private CactusState state;
+    @Embedded
+    private State state;
 
     @Column(name = "flower_color", nullable = true, updatable = true, length = 128)
     private String flowerColor;
@@ -170,5 +171,40 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
                     this.getState().getNoLongerInPossessionTimestamp() == null ? OffsetDateTime.now() : this.getState().getNoLongerInPossessionTimestamp()
             );
         return null;
+    }
+
+    @Data
+    @Embeddable
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class Acquisition {
+
+        @Column(name = "timestamp", nullable = true, updatable = true)
+        private OffsetDateTime timestamp;
+
+        @Column(name = "age", nullable = true, updatable = true)
+        private Duration age;
+
+        @Column(name = "place", nullable = true, updatable = true, length = 512)
+        private String place;
+
+        @Column(name = "plant_type", nullable = true, updatable = true, length = 512)
+        private String plantType;
+    }
+
+    @Data
+    @Embeddable
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class State {
+
+        @Column(name = "no_longer_in_possession_timestamp", nullable = true, updatable = true)
+        private OffsetDateTime noLongerInPossessionTimestamp;
+
+        @Column(name = "no_longer_in_possession_reason", nullable = true, updatable = true)
+        private String noLongerInPossessionReason;
+
+        @Column(name = "vitality", nullable = true, updatable = true, length = 128)
+        private String vitality;
     }
 }
