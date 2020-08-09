@@ -23,14 +23,14 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.getnova.backend:nova-logging:1.0.3'
-    implementation 'net.getnova.backend:nova-service:1.0.3'
-    implementation 'net.getnova.backend:nova-injection:1.0.3'
-    implementation 'net.getnova.backend:nova-config:1.0.3'
-    implementation 'net.getnova.backend:nova-api:1.0.3'
-    implementation 'net.getnova.backend:nova-sql:1.0.3'
-    implementation 'net.getnova.backend:nova-json:1.0.3'
-    runtimeOnly 'net.getnova.backend:nova-bootstrap:1.0.3'
+    implementation 'net.getnova.backend:nova-logging:edge'
+    implementation 'net.getnova.backend:nova-service:edge'
+    implementation 'net.getnova.backend:nova-injection:edge'
+    implementation 'net.getnova.backend:nova-config:edge'
+    implementation 'net.getnova.backend:nova-api:edge'
+    implementation 'net.getnova.backend:nova-sql:edge'
+    implementation 'net.getnova.backend:nova-json:edge'
+    runtimeOnly 'net.getnova.backend:nova-bootstrap:edge'
 }
 
 jar {

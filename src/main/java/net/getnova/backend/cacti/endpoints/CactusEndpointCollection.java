@@ -22,7 +22,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -95,7 +94,7 @@ public final class CactusEndpointCollection {
                                @ApiParameter(id = "synonyms", description = "todo", required = false) final String synonyms,
 
                                @ApiParameter(id = "acquisitionTimestamp", description = "todo", required = false) final OffsetDateTime acquisitionTimestamp,
-                               @ApiParameter(id = "acquisitionPlantAge", description = "todo", required = false) final Long acquisitionPlantAge,
+                               @ApiParameter(id = "acquisitionAge", description = "todo", required = false) final Duration acquisitionAge,
                                @ApiParameter(id = "acquisitionPlace", description = "todo", required = false) final String acquisitionPlace,
                                @ApiParameter(id = "acquisitionPlantType", description = "todo", required = false) final String acquisitionPlantType,
 
@@ -138,13 +137,14 @@ public final class CactusEndpointCollection {
 
         /* --> acquisition */
         cactus.setAcquisition(acquisitionTimestamp == null
-                && acquisitionPlantAge == null
+                && acquisitionAge == null
                 && acquisitionPlace == null
                 && acquisitionPlantType == null
                 ? null
                 : new Cactus.Acquisition(acquisitionTimestamp,
-                acquisitionPlantAge == null ? null : Duration.of(acquisitionPlantAge * 30, ChronoUnit.DAYS),
-                acquisitionPlace, acquisitionPlantType));
+                acquisitionAge,
+                acquisitionPlace,
+                acquisitionPlantType));
         /* <-- acquisition */
 
         /* --> state */
@@ -164,8 +164,8 @@ public final class CactusEndpointCollection {
         if (careGroupId != null) {
             careGroup = this.careGroupRepository.find(careGroupId);
             if (careGroup == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CARE_GROUP");
-            cactus.setCareGroup(careGroup);
         }
+        cactus.setCareGroup(careGroup);
 
         final boolean careGroupExist = careGroup != null;
 
