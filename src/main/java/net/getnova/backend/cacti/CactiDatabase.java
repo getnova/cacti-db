@@ -46,10 +46,10 @@ public final class CactiDatabase {
     private SqlService sqlService;
 
     @Inject
-    private PlaygroundService playgroundService;
+    private WebsocketApiService websocketApiService;
 
     @Inject
-    private WebsocketApiService websocketApiService;
+    private PlaygroundService playgroundService;
 
     @PreInitService
     private void preInit(final PreInitServiceEvent event) {

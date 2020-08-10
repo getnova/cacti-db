@@ -10,7 +10,7 @@
     </a>
 </p>
 <p align="center">
-    This is the Discord Bot of the Nova Project.
+    This is the Cacti Database of the Nova Project.
 </p>
 
 ## Getting Started

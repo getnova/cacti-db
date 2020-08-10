@@ -31,15 +31,15 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
     private String number;
 
     @ManyToOne
-    @JoinColumn(name = "genus_id", nullable = true, updatable = false)
+    @JoinColumn(name = "genus_id", nullable = true, updatable = true)
     private Genus genus;
 
     @ManyToOne
-    @JoinColumn(name = "specie_id", nullable = true, updatable = false)
+    @JoinColumn(name = "specie_id", nullable = true, updatable = true)
     private Specie specie;
 
     @ManyToOne
-    @JoinColumn(name = "form_id", nullable = true, updatable = false)
+    @JoinColumn(name = "form_id", nullable = true, updatable = true)
     private Form form;
 
     @Column(name = "field_number", nullable = true, updatable = true, length = 128)
@@ -128,7 +128,7 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
 
                 .add("acquisition", this.getAcquisition())
 
-                .add("state", this.getState() == null, () -> null,
+                .add("state", this.getState() == null, () -> JsonBuilder.create("age", this.getAge()),
                         () -> JsonBuilder.create(JsonUtils.fromJson(JsonUtils.toJson(this.getState()), JsonObject.class))
                                 .add("age", this.getAge()))
 
@@ -165,10 +165,12 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
     }
 
     public Duration getAge() {
-        if (this.getAcquisition().getTimestamp() != null && this.getAcquisition().getAge() != null)
+        if (this.getAcquisition() != null && this.getAcquisition().getTimestamp() != null && this.getAcquisition().getAge() != null)
             return Duration.between(
                     this.getAcquisition().getTimestamp().minus(this.getAcquisition().getAge()),
-                    this.getState().getNoLongerInPossessionTimestamp() == null ? OffsetDateTime.now() : this.getState().getNoLongerInPossessionTimestamp()
+                    this.getState() == null || this.getState().getNoLongerInPossessionTimestamp() == null
+                            ? OffsetDateTime.now()
+                            : this.getState().getNoLongerInPossessionTimestamp()
             );
         return null;
     }
