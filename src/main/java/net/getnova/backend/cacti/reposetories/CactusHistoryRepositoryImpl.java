@@ -17,21 +17,21 @@ import java.util.UUID;
 @Singleton
 public final class CactusHistoryRepositoryImpl extends SqlRepositoryImpl<CactusHistory, UUID> implements CactusHistoryRepository {
 
-    @Inject
-    private SqlService sqlService;
+  @Inject
+  private SqlService sqlService;
 
-    public CactusHistoryRepositoryImpl() {
-        super(CactusHistory.class);
-    }
+  public CactusHistoryRepositoryImpl() {
+    super(CactusHistory.class);
+  }
 
-    @Override
-    public List<CactusHistory> list(final Cactus cactus) {
-        try (Session session = this.sqlService.openSession()) {
-            final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            final CriteriaQuery<CactusHistory> criteriaQuery = criteriaBuilder.createQuery(CactusHistory.class);
-            final Root<CactusHistory> root = criteriaQuery.from(CactusHistory.class);
-            criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("cactus").get("id"), cactus.getId()));
-            return session.createQuery(criteriaQuery).getResultList();
-        }
+  @Override
+  public List<CactusHistory> list(final Cactus cactus) {
+    try (Session session = this.sqlService.openSession()) {
+      final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+      final CriteriaQuery<CactusHistory> criteriaQuery = criteriaBuilder.createQuery(CactusHistory.class);
+      final Root<CactusHistory> root = criteriaQuery.from(CactusHistory.class);
+      criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("cactus").get("id"), cactus.getId()));
+      return session.createQuery(criteriaQuery).getResultList();
     }
+  }
 }

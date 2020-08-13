@@ -9,5 +9,5 @@ import java.util.UUID;
 
 public interface CactusHistoryRepository extends SqlRepository<CactusHistory, UUID> {
 
-    List<CactusHistory> list(Cactus cactus);
+  List<CactusHistory> list(Cactus cactus);
 }

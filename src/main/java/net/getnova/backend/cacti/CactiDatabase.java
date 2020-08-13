@@ -42,43 +42,43 @@ import javax.inject.Singleton;
 @Singleton
 public final class CactiDatabase {
 
-    @Inject
-    private SqlService sqlService;
+  @Inject
+  private SqlService sqlService;
 
-    @Inject
-    private WebsocketApiService websocketApiService;
+  @Inject
+  private WebsocketApiService websocketApiService;
 
-    @Inject
-    private PlaygroundService playgroundService;
+  @Inject
+  private PlaygroundService playgroundService;
 
-    @PreInitService
-    private void preInit(final PreInitServiceEvent event) {
-        this.sqlService.addEntity(Genus.class);
-        this.sqlService.addEntity(Specie.class);
-        this.sqlService.addEntity(Form.class);
-        this.sqlService.addEntity(CareGroup.class);
-        this.sqlService.addEntity(Cactus.class);
-        this.sqlService.addEntity(CactusHistory.class);
-        event.getBinder().bind(GenusRepository.class).to(GenusRepositoryImpl.class);
-        event.getBinder().bind(SpecieRepository.class).to(SpecieRepositoryImpl.class);
-        event.getBinder().bind(FormRepository.class).to(FormRepositoryImpl.class);
-        event.getBinder().bind(CareGroupRepository.class).to(CareGroupRepositoryImpl.class);
-        event.getBinder().bind(CactusRepository.class).to(CactusRepositoryImpl.class);
-        event.getBinder().bind(CactusHistoryRepository.class).to(CactusHistoryRepositoryImpl.class);
-    }
+  @PreInitService
+  private void preInit(final PreInitServiceEvent event) {
+    this.sqlService.addEntity(Genus.class);
+    this.sqlService.addEntity(Specie.class);
+    this.sqlService.addEntity(Form.class);
+    this.sqlService.addEntity(CareGroup.class);
+    this.sqlService.addEntity(Cactus.class);
+    this.sqlService.addEntity(CactusHistory.class);
+    event.getBinder().bind(GenusRepository.class).to(GenusRepositoryImpl.class);
+    event.getBinder().bind(SpecieRepository.class).to(SpecieRepositoryImpl.class);
+    event.getBinder().bind(FormRepository.class).to(FormRepositoryImpl.class);
+    event.getBinder().bind(CareGroupRepository.class).to(CareGroupRepositoryImpl.class);
+    event.getBinder().bind(CactusRepository.class).to(CactusRepositoryImpl.class);
+    event.getBinder().bind(CactusHistoryRepository.class).to(CactusHistoryRepositoryImpl.class);
+  }
 
-    @InitService
-    private void init(final InitServiceEvent event) {
-        this.websocketApiService.addEndpointCollection(GenusEndpointCollection.class);
-        this.websocketApiService.addEndpointCollection(SpecieEndpointCollection.class);
-        this.websocketApiService.addEndpointCollection(FormEndpointCollection.class);
-        this.websocketApiService.addEndpointCollection(CareGroupEndpointCollection.class);
-        this.websocketApiService.addEndpointCollection(CactusEndpointCollection.class);
-        this.websocketApiService.addEndpointCollection(CactusHistoryEndpointCollection.class);
-    }
+  @InitService
+  private void init(final InitServiceEvent event) {
+    this.websocketApiService.addEndpointCollection(GenusEndpointCollection.class);
+    this.websocketApiService.addEndpointCollection(SpecieEndpointCollection.class);
+    this.websocketApiService.addEndpointCollection(FormEndpointCollection.class);
+    this.websocketApiService.addEndpointCollection(CareGroupEndpointCollection.class);
+    this.websocketApiService.addEndpointCollection(CactusEndpointCollection.class);
+    this.websocketApiService.addEndpointCollection(CactusHistoryEndpointCollection.class);
+  }
 
-    @PostInitService
-    private void postInit(final PostInitServiceEvent event) {
-        this.playgroundService.addCollections(this.websocketApiService.getCollectionsData());
-    }
+  @PostInitService
+  private void postInit(final PostInitServiceEvent event) {
+    this.playgroundService.addCollections(this.websocketApiService.getCollectionsData());
+  }
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 @Singleton
 public final class GenusRepositoryImpl extends SqlRepositoryImpl<Genus, UUID> implements GenusRepository {
 
-    public GenusRepositoryImpl() {
-        super(Genus.class);
-    }
+  public GenusRepositoryImpl() {
+    super(Genus.class);
+  }
 }

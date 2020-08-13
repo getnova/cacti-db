@@ -21,18 +21,18 @@ import javax.persistence.Table;
 @Table(name = "cacti_specie")
 public final class Specie extends TableModelAutoId implements JsonSerializable {
 
-    @Column(name = "name", nullable = false, updatable = true, length = 128)
-    private String name;
+  @Column(name = "name", nullable = false, updatable = true, length = 128)
+  private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "genus_id", nullable = false, updatable = false)
-    private Genus genus;
+  @ManyToOne
+  @JoinColumn(name = "genus_id", nullable = false, updatable = false)
+  private Genus genus;
 
-    @Override
-    public JsonElement serialize() {
-        return JsonBuilder.create("id", this.getId())
-                .add("name", this.getName())
-                .add("genusId", this.getGenus().getId())
-                .build();
-    }
+  @Override
+  public JsonElement serialize() {
+    return JsonBuilder.create("id", this.getId())
+      .add("name", this.getName())
+      .add("genusId", this.getGenus().getId())
+      .build();
+  }
 }

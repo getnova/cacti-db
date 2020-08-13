@@ -16,6 +16,6 @@ import javax.persistence.Table;
 @Table(name = "cacti_genus")
 public final class Genus extends TableModelAutoId {
 
-    @Column(name = "name", nullable = false, updatable = true, length = 128)
-    private String name;
+  @Column(name = "name", nullable = false, updatable = true, length = 128)
+  private String name;
 }

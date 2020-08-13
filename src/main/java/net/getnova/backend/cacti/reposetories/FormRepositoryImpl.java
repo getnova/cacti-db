@@ -9,7 +9,7 @@ import java.util.UUID;
 @Singleton
 public final class FormRepositoryImpl extends SqlRepositoryImpl<Form, UUID> implements FormRepository {
 
-    public FormRepositoryImpl() {
-        super(Form.class);
-    }
+  public FormRepositoryImpl() {
+    super(Form.class);
+  }
 }

@@ -13,11 +13,11 @@ import javax.inject.Singleton;
 @ApiEndpointCollection(id = "careGroup", description = "Handle all care groups.")
 public final class CareGroupEndpointCollection {
 
-    @Inject
-    private CareGroupRepository careGroupRepository;
+  @Inject
+  private CareGroupRepository careGroupRepository;
 
-    @ApiEndpoint(id = "list", description = "Lists all care groups.")
-    private ApiResponse list() {
-        return new ApiResponse(ApiResponseStatus.OK, this.careGroupRepository.list());
-    }
+  @ApiEndpoint(id = "list", description = "Lists all care groups.")
+  private ApiResponse list() {
+    return new ApiResponse(ApiResponseStatus.OK, this.careGroupRepository.list());
+  }
 }

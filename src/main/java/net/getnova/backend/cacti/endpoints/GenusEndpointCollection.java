@@ -16,29 +16,29 @@ import java.util.UUID;
 @ApiEndpointCollection(id = "genus", description = "Handle all genres.")
 public final class GenusEndpointCollection {
 
-    @Inject
-    private GenusRepository genusRepository;
+  @Inject
+  private GenusRepository genusRepository;
 
-    @ApiEndpoint(id = "list", description = "Lists all genres.")
-    private ApiResponse list() {
-        return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.list());
-    }
+  @ApiEndpoint(id = "list", description = "Lists all genres.")
+  private ApiResponse list() {
+    return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.list());
+  }
 
-    @ApiEndpoint(id = "add", description = "Add a genus.")
-    private ApiResponse add(@ApiParameter(id = "name", description = "The name of the genus.") final String name) {
-        return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.save(new Genus(name)));
-    }
+  @ApiEndpoint(id = "add", description = "Add a genus.")
+  private ApiResponse add(@ApiParameter(id = "name", description = "The name of the genus.") final String name) {
+    return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.save(new Genus(name)));
+  }
 
-    @ApiEndpoint(id = "update", description = "Update a genus.")
-    private ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing genus.") final UUID id,
-                               @ApiParameter(id = "name", description = "The new name of the genus.") final String name) {
-        final Genus genus = this.genusRepository.find(id);
-        genus.setName(name);
-        return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.update(genus));
-    }
+  @ApiEndpoint(id = "update", description = "Update a genus.")
+  private ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing genus.") final UUID id,
+                             @ApiParameter(id = "name", description = "The new name of the genus.") final String name) {
+    final Genus genus = this.genusRepository.find(id);
+    genus.setName(name);
+    return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.update(genus));
+  }
 
-    @ApiEndpoint(id = "delete", description = "Delete a genus.")
-    private ApiResponse delete(@ApiParameter(id = "id", description = "The id of the genus, witch should be deleted.") final UUID id) {
-        return this.genusRepository.delete(id) ? new ApiResponse(ApiResponseStatus.OK) : new ApiResponse(ApiResponseStatus.NOT_FOUND, "GENUS");
-    }
+  @ApiEndpoint(id = "delete", description = "Delete a genus.")
+  private ApiResponse delete(@ApiParameter(id = "id", description = "The id of the genus, witch should be deleted.") final UUID id) {
+    return this.genusRepository.delete(id) ? new ApiResponse(ApiResponseStatus.OK) : new ApiResponse(ApiResponseStatus.NOT_FOUND, "GENUS");
+  }
 }

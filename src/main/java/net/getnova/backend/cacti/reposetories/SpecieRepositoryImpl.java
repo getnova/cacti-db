@@ -9,7 +9,7 @@ import java.util.UUID;
 @Singleton
 public final class SpecieRepositoryImpl extends SqlRepositoryImpl<Specie, UUID> implements SpecieRepository {
 
-    public SpecieRepositoryImpl() {
-        super(Specie.class);
-    }
+  public SpecieRepositoryImpl() {
+    super(Specie.class);
+  }
 }

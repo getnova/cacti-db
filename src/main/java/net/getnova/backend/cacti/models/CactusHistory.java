@@ -22,22 +22,22 @@ import java.time.OffsetDateTime;
 @Table(name = "cacti_cactus_history")
 public final class CactusHistory extends TableModelAutoId implements JsonSerializable {
 
-    @ManyToOne
-    @JoinColumn(name = "cactus_id", nullable = false, updatable = false)
-    private Cactus cactus;
+  @ManyToOne
+  @JoinColumn(name = "cactus_id", nullable = false, updatable = false)
+  private Cactus cactus;
 
-    @Column(name = "timestamp", nullable = false, updatable = true)
-    private OffsetDateTime timestamp;
+  @Column(name = "timestamp", nullable = false, updatable = true)
+  private OffsetDateTime timestamp;
 
-    @Column(name = "content", nullable = false, updatable = true, length = 2048)
-    private String content;
+  @Column(name = "content", nullable = false, updatable = true, length = 2048)
+  private String content;
 
-    @Override
-    public JsonElement serialize() {
-        return JsonBuilder.create("id", this.getId())
-                .add("cactusId", this.getCactus().getId())
-                .add("timestamp", this.getTimestamp())
-                .add("content", this.getContent())
-                .build();
-    }
+  @Override
+  public JsonElement serialize() {
+    return JsonBuilder.create("id", this.getId())
+      .add("cactusId", this.getCactus().getId())
+      .add("timestamp", this.getTimestamp())
+      .add("content", this.getContent())
+      .build();
+  }
 }

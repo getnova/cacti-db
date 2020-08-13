@@ -9,7 +9,7 @@ import java.util.UUID;
 @Singleton
 public final class CactusRepositoryImpl extends SqlRepositoryImpl<Cactus, UUID> implements CactusRepository {
 
-    public CactusRepositoryImpl() {
-        super(Cactus.class);
-    }
+  public CactusRepositoryImpl() {
+    super(Cactus.class);
+  }
 }

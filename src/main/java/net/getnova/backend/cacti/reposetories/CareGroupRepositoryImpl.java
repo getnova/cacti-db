@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 @Singleton
 public final class CareGroupRepositoryImpl extends SqlRepositoryImpl<CareGroup, String> implements CareGroupRepository {
 
-    public CareGroupRepositoryImpl() {
-        super(CareGroup.class);
-    }
+  public CareGroupRepositoryImpl() {
+    super(CareGroup.class);
+  }
 }
