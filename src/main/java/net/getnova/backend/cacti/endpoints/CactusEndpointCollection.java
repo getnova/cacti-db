@@ -204,24 +204,23 @@ public final class CactusEndpointCollection {
         cactus.setCareGroup(careGroup);
 
         final boolean careGroupExist = careGroup != null;
-
         cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getHome(), careGroupHome) ? null : careGroupHome);
         cactus.setCareGroupSoil(careGroupExist && Objects.equals(careGroup.getSoil(), careGroupSoil) ? null : careGroupSoil);
 
         /* --> grow time */
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeLight(), careGroupGrowTimeLight) ? null : careGroupGrowTimeLight);
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeAir(), careGroupGrowTimeAir) ? null : careGroupGrowTimeAir);
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeTemperature(), careGroupGrowTimeTemperature) ? null : careGroupGrowTimeTemperature);
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeHumidity(), careGroupGrowTimeHumidity) ? null : careGroupGrowTimeHumidity);
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getGrowTimeOther(), careGroupGrowTimeOther) ? null : careGroupGrowTimeOther);
+        cactus.setCareGroupGrowTimeLight(careGroupExist && Objects.equals(careGroup.getGrowTimeLight(), careGroupGrowTimeLight) ? null : careGroupGrowTimeLight);
+        cactus.setCareGroupGrowTimeAir(careGroupExist && Objects.equals(careGroup.getGrowTimeAir(), careGroupGrowTimeAir) ? null : careGroupGrowTimeAir);
+        cactus.setCareGroupGrowTimeTemperature(careGroupExist && Objects.equals(careGroup.getGrowTimeTemperature(), careGroupGrowTimeTemperature) ? null : careGroupGrowTimeTemperature);
+        cactus.setCareGroupGrowTimeHumidity(careGroupExist && Objects.equals(careGroup.getGrowTimeHumidity(), careGroupGrowTimeHumidity) ? null : careGroupGrowTimeHumidity);
+        cactus.setCareGroupGrowTimeOther(careGroupExist && Objects.equals(careGroup.getGrowTimeOther(), careGroupGrowTimeOther) ? null : careGroupGrowTimeOther);
         /* <-- grow time */
 
         /* --> rest time */
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeLight(), careGroupRestTimeLight) ? null : careGroupRestTimeLight);
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeAir(), careGroupRestTimeAir) ? null : careGroupRestTimeAir);
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeTemperature(), careGroupRestTimeTemperature) ? null : careGroupRestTimeTemperature);
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeHumidity(), careGroupRestTimeHumidity) ? null : careGroupRestTimeHumidity);
-        cactus.setCareGroupHome(careGroupExist && Objects.equals(careGroup.getRestTimeOther(), careGroupRestTimeOther) ? null : careGroupRestTimeOther);
+        cactus.setCareGroupRestTimeLight(careGroupExist && Objects.equals(careGroup.getRestTimeLight(), careGroupRestTimeLight) ? null : careGroupRestTimeLight);
+        cactus.setCareGroupRestTimeAir(careGroupExist && Objects.equals(careGroup.getRestTimeAir(), careGroupRestTimeAir) ? null : careGroupRestTimeAir);
+        cactus.setCareGroupRestTimeTemperature(careGroupExist && Objects.equals(careGroup.getRestTimeTemperature(), careGroupRestTimeTemperature) ? null : careGroupRestTimeTemperature);
+        cactus.setCareGroupRestTimeHumidity(careGroupExist && Objects.equals(careGroup.getRestTimeHumidity(), careGroupRestTimeHumidity) ? null : careGroupRestTimeHumidity);
+        cactus.setCareGroupRestTimeOther(careGroupExist && Objects.equals(careGroup.getRestTimeOther(), careGroupRestTimeOther) ? null : careGroupRestTimeOther);
         /* <-- rest time */
 
         /* <-- care group */
