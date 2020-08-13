@@ -17,9 +17,12 @@ import net.getnova.backend.cacti.reposetories.FormRepository;
 import net.getnova.backend.cacti.reposetories.GenusRepository;
 import net.getnova.backend.cacti.reposetories.SpecieRepository;
 import net.getnova.backend.json.JsonUtils;
+import net.getnova.backend.sql.SqlService;
+import org.hibernate.Session;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.persistence.NoResultException;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Objects;
@@ -28,6 +31,9 @@ import java.util.UUID;
 @Singleton
 @ApiEndpointCollection(id = "cactus", description = "Handle all cacti.")
 public final class CactusEndpointCollection {
+
+    @Inject
+    private SqlService sqlService;
 
     @Inject
     private GenusRepository genusRepository;
@@ -61,6 +67,16 @@ public final class CactusEndpointCollection {
                             @ApiParameter(id = "subId", description = "The id of the sub type.", required = false) final UUID subId,
                             @ApiParameter(id = "subType", description = "The type of the sub type.", required = false) final String subType) {
 
+        try (Session session = this.sqlService.openSession()) {
+            try {
+                session.createQuery("select c.id from Cactus c where c.number = :number", UUID.class)
+                        .setParameter("number", number)
+                        .getSingleResult();
+                return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
+            } catch (NoResultException ignored) {
+            }
+        }
+
         final Cactus cactus = new Cactus(number);
 
         try {
@@ -75,6 +91,16 @@ public final class CactusEndpointCollection {
     @ApiEndpoint(id = "updateNumber", description = "Updates only the number of a cactus.")
     private ApiResponse updateNumber(@ApiParameter(id = "id", description = "The id of the existing cactus.") final UUID id,
                                      @ApiParameter(id = "number", description = "The new/old number of the cactus.") final String number) {
+
+        try (Session session = this.sqlService.openSession()) {
+            try {
+                if (!session.createQuery("select c.id from Cactus c where c.number = :number", UUID.class)
+                        .setParameter("number", number)
+                        .getSingleResult().equals(id))
+                    return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
+            } catch (NoResultException ignored) {
+            }
+        }
 
         final Cactus cactus = this.cactusRepository.find(id);
         if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
@@ -123,6 +149,16 @@ public final class CactusEndpointCollection {
 
         final Cactus cactus = this.cactusRepository.find(id);
         if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
+
+        try (Session session = this.sqlService.openSession()) {
+            try {
+                if (!session.createQuery("select c.id from Cactus c where c.number = :number", UUID.class)
+                        .setParameter("number", number)
+                        .getSingleResult().equals(id))
+                    return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
+            } catch (NoResultException ignored) {
+            }
+        }
 
         cactus.setNumber(number);
 

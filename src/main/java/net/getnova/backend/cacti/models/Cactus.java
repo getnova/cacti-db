@@ -27,7 +27,7 @@ import java.time.OffsetDateTime;
 @Table(name = "cacti_cactus")
 public final class Cactus extends TableModelAutoId implements JsonSerializable {
 
-    @Column(name = "number", nullable = false, updatable = true, length = 128)
+    @Column(name = "number", nullable = false, updatable = true, length = 128, unique = true)
     private String number;
 
     @ManyToOne
