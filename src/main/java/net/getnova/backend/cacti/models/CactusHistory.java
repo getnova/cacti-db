@@ -2,8 +2,9 @@ package net.getnova.backend.cacti.models;
 
 import com.google.gson.JsonElement;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.getnova.backend.json.JsonBuilder;
 import net.getnova.backend.json.JsonSerializable;
 import net.getnova.backend.sql.model.TableModelAutoId;
@@ -15,12 +16,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cacti_cactus_history")
-public final class CactusHistory extends TableModelAutoId implements JsonSerializable {
+public class CactusHistory extends TableModelAutoId implements JsonSerializable {
 
   @ManyToOne
   @JoinColumn(name = "cactus_id", nullable = false, updatable = false)
@@ -33,7 +35,7 @@ public final class CactusHistory extends TableModelAutoId implements JsonSeriali
   private String content;
 
   @Override
-  public JsonElement serialize() {
+  public final JsonElement serialize() {
     return JsonBuilder.create("id", this.getId())
       .add("cactusId", this.getCactus().getId())
       .add("timestamp", this.getTimestamp())

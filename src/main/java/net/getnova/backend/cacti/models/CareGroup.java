@@ -1,8 +1,9 @@
 package net.getnova.backend.cacti.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.getnova.backend.json.JsonTransient;
 import net.getnova.backend.sql.model.TableModel;
 
@@ -11,12 +12,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cacti_care_group")
-public final class CareGroup extends TableModel {
+public class CareGroup extends TableModel {
 
   @Id
   @Column(name = "id", nullable = false, updatable = false, length = 2)

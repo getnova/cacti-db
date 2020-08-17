@@ -4,7 +4,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.getnova.backend.json.JsonBuilder;
 import net.getnova.backend.json.JsonSerializable;
 import net.getnova.backend.json.JsonUtils;
@@ -20,12 +22,13 @@ import javax.persistence.Table;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cacti_cactus")
-public final class Cactus extends TableModelAutoId implements JsonSerializable {
+public class Cactus extends TableModelAutoId implements JsonSerializable {
 
   @Column(name = "number", nullable = false, updatable = true, length = 128, unique = true)
   private String number;
@@ -101,7 +104,7 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
     this.number = number;
   }
 
-  public JsonElement serialize(final boolean small) {
+  public final JsonElement serialize(final boolean small) {
     if (!small) return this.serialize();
     else return JsonBuilder.create("id", this.getId())
       .add("number", this.getNumber())
@@ -112,7 +115,7 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
   }
 
   @Override
-  public JsonElement serialize() {
+  public final JsonElement serialize() {
     final CareGroup careGroup = this.getCareGroup();
     final boolean careGroupNotExist = careGroup == null;
 
@@ -156,7 +159,7 @@ public final class Cactus extends TableModelAutoId implements JsonSerializable {
       .build();
   }
 
-  public Duration getAge() {
+  public final Duration getAge() {
     if (this.getAcquisition() != null && this.getAcquisition().getTimestamp() != null && this.getAcquisition().getAge() != null)
       return Duration.between(
         this.getAcquisition().getTimestamp().minus(this.getAcquisition().getAge()),
