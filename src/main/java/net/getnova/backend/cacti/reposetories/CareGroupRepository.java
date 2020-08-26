@@ -1,7 +1,9 @@
 package net.getnova.backend.cacti.reposetories;
 
 import net.getnova.backend.cacti.models.CareGroup;
-import net.getnova.backend.sql.repository.SqlRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CareGroupRepository extends SqlRepository<CareGroup, String> {
+@Repository
+public interface CareGroupRepository extends JpaRepository<CareGroup, String> {
 }

@@ -1,8 +1,13 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Bootstrap" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="net.getnova.backend.Bootstrap" />
+    <envs>
+      <env name="SQL_SERVER_LOCATION" value="mariadb://[::1]:3306" />
+      <env name="DEBUG" value="true" />
+      <env name="LOG_LEVEL" value="DEBUG" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="net.getnova.backend.boot.Bootstrap" />
     <module name="cacti-db.main" />
-    <option name="PROGRAM_PARAMETERS" value="-s net.getnova.backend.cacti.CactiDatabase -s net.getnova.backend.cacti.services.CareGroupService" />
+    <option name="PROGRAM_PARAMETERS" value="net.getnova.backend.cacti.CactiDatabase" />
     <option name="VM_PARAMETERS" value="-XX:+ShowCodeDetailsInExceptionMessages" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
     <method v="2">

@@ -17,47 +17,41 @@ import net.getnova.backend.cacti.reposetories.FormRepository;
 import net.getnova.backend.cacti.reposetories.GenusRepository;
 import net.getnova.backend.cacti.reposetories.SpecieRepository;
 import net.getnova.backend.json.JsonUtils;
-import net.getnova.backend.sql.SqlService;
-import org.hibernate.Session;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.persistence.NoResultException;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-@Singleton
 @ApiEndpointCollection(id = "cactus", description = "Handle all cacti.")
 public final class CactusEndpointCollection {
 
-  @Inject
-  private SqlService sqlService;
+  private final GenusRepository genusRepository;
+  private final SpecieRepository specieRepository;
+  private final FormRepository formRepository;
+  private final CareGroupRepository careGroupRepository;
+  private final CactusRepository cactusRepository;
 
-  @Inject
-  private GenusRepository genusRepository;
-
-  @Inject
-  private SpecieRepository specieRepository;
-
-  @Inject
-  private FormRepository formRepository;
-
-  @Inject
-  private CareGroupRepository careGroupRepository;
-
-  @Inject
-  private CactusRepository cactusRepository;
+  public CactusEndpointCollection(final GenusRepository genusRepository,
+                                  final SpecieRepository specieRepository,
+                                  final FormRepository formRepository,
+                                  final CareGroupRepository careGroupRepository,
+                                  final CactusRepository cactusRepository) {
+    this.genusRepository = genusRepository;
+    this.specieRepository = specieRepository;
+    this.formRepository = formRepository;
+    this.careGroupRepository = careGroupRepository;
+    this.cactusRepository = cactusRepository;
+  }
 
   @ApiEndpoint(id = "list", description = "Lists all cacti.")
   private ApiResponse list() {
-    return new ApiResponse(ApiResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.list(), cactus -> cactus.serialize(true)));
+    return new ApiResponse(ApiResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.findAll(), cactus -> cactus.serialize(true)));
   }
 
   @ApiEndpoint(id = "get", description = "Return the cactus with the specified id.")
   private ApiResponse get(@ApiParameter(id = "id", description = "The id of the cactus.") final UUID id) {
-    final Cactus cactus = this.cactusRepository.find(id);
+    final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
     if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
     return new ApiResponse(ApiResponseStatus.OK, cactus);
   }
@@ -67,14 +61,8 @@ public final class CactusEndpointCollection {
                           @ApiParameter(id = "subId", description = "The id of the sub type.", required = false) final UUID subId,
                           @ApiParameter(id = "subType", description = "The type of the sub type.", required = false) final String subType) {
 
-    try (Session session = this.sqlService.openSession()) {
-      try {
-        session.createQuery("select c.id from Cactus c where c.number = :number", UUID.class)
-          .setParameter("number", number)
-          .getSingleResult();
-        return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
-      } catch (NoResultException ignored) {
-      }
+    if (this.cactusRepository.findByNumber(number).isPresent()) {
+      return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
     }
 
     final Cactus cactus = new Cactus(number);
@@ -92,21 +80,15 @@ public final class CactusEndpointCollection {
   private ApiResponse updateNumber(@ApiParameter(id = "id", description = "The id of the existing cactus.") final UUID id,
                                    @ApiParameter(id = "number", description = "The new/old number of the cactus.") final String number) {
 
-    try (Session session = this.sqlService.openSession()) {
-      try {
-        if (!session.createQuery("select c.id from Cactus c where c.number = :number", UUID.class)
-          .setParameter("number", number)
-          .getSingleResult().equals(id))
-          return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
-      } catch (NoResultException ignored) {
-      }
+    if (this.cactusRepository.findByNumber(number).isPresent()) {
+      return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
     }
 
-    final Cactus cactus = this.cactusRepository.find(id);
+    final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
     if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
 
     cactus.setNumber(number);
-    return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.update(cactus));
+    return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.save(cactus));
   }
 
   @ApiEndpoint(id = "update", description = "Update a cactus.")
@@ -147,17 +129,11 @@ public final class CactusEndpointCollection {
                              @ApiParameter(id = "careGroupRestTimeHumidity", description = "todo", required = false) final String careGroupRestTimeHumidity,
                              @ApiParameter(id = "careGroupRestTimeOther", description = "todo", required = false) final String careGroupRestTimeOther) {
 
-    final Cactus cactus = this.cactusRepository.find(id);
+    final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
     if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
 
-    try (Session session = this.sqlService.openSession()) {
-      try {
-        if (!session.createQuery("select c.id from Cactus c where c.number = :number", UUID.class)
-          .setParameter("number", number)
-          .getSingleResult().equals(id))
-          return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
-      } catch (NoResultException ignored) {
-      }
+    if (this.cactusRepository.findByNumber(number).isPresent()) {
+      return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
     }
 
     cactus.setNumber(number);
@@ -198,7 +174,7 @@ public final class CactusEndpointCollection {
     /* --> care group */
     CareGroup careGroup = null;
     if (careGroupId != null) {
-      careGroup = this.careGroupRepository.find(careGroupId);
+      careGroup = this.careGroupRepository.findById(careGroupId).orElse(null);
       if (careGroup == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CARE_GROUP");
     }
     cactus.setCareGroup(careGroup);
@@ -227,12 +203,18 @@ public final class CactusEndpointCollection {
 
     /* <-- care group */
 
-    return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.update(cactus));
+    return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.save(cactus));
   }
 
   @ApiEndpoint(id = "delete", description = "Delete a cactus.")
   private ApiResponse delete(@ApiParameter(id = "id", description = "The id of the cactus, witch should be deleted.") final UUID id) {
-    return this.cactusRepository.delete(id) ? new ApiResponse(ApiResponseStatus.OK) : new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
+    final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
+    if (cactus != null) {
+      this.cactusRepository.delete(cactus);
+      return new ApiResponse(ApiResponseStatus.OK);
+    } else {
+      return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
+    }
   }
 
   private void setSubType(final Cactus cactus, final UUID subId, final String subType) throws CactiException {
@@ -242,21 +224,21 @@ public final class CactusEndpointCollection {
       cactus.setGenus(null);
     } else switch (subType) {
       case "GENUS":
-        final Genus genus = this.genusRepository.find(subId);
+        final Genus genus = this.genusRepository.findById(subId).orElse(null);
         if (genus == null) throw new CactiException("GENUS");
         cactus.setForm(null);
         cactus.setSpecie(null);
         cactus.setGenus(genus);
         break;
       case "SPECIE":
-        final Specie specie = this.specieRepository.find(subId);
+        final Specie specie = this.specieRepository.findById(subId).orElse(null);
         if (specie == null) throw new CactiException("SPECIE");
         cactus.setForm(null);
         cactus.setSpecie(specie);
         cactus.setGenus(specie.getGenus());
         break;
       case "FORM":
-        final Form form = this.formRepository.find(subId);
+        final Form form = this.formRepository.findById(subId).orElse(null);
         if (form == null) throw new CactiException("FORM");
         cactus.setForm(form);
         cactus.setSpecie(form.getSpecie());
