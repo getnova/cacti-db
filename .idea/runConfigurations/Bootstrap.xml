@@ -4,6 +4,7 @@
       <env name="SQL_SERVER_LOCATION" value="mariadb://[::1]:3306" />
       <env name="DEBUG" value="true" />
     </envs>
+    <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
     <option name="MAIN_CLASS_NAME" value="net.getnova.backend.boot.Bootstrap" />
     <module name="cacti-db.main" />
     <option name="PROGRAM_PARAMETERS" value="net.getnova.backend.cacti.CactiDatabase" />

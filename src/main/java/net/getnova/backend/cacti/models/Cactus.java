@@ -3,7 +3,6 @@ package net.getnova.backend.cacti.models;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -170,11 +169,12 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
     return null;
   }
 
-  @Data
+  @Getter
+  @Setter
   @Embeddable
   @NoArgsConstructor
   @AllArgsConstructor
-  public static final class Acquisition {
+  public static class Acquisition {
 
     @Column(name = "timestamp", nullable = true, updatable = true)
     private OffsetDateTime timestamp;
@@ -189,11 +189,12 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
     private String plantType;
   }
 
-  @Data
+  @Getter
+  @Setter
   @Embeddable
   @NoArgsConstructor
   @AllArgsConstructor
-  public static final class State {
+  public static class State {
 
     @Column(name = "no_longer_in_possession_timestamp", nullable = true, updatable = true)
     private OffsetDateTime noLongerInPossessionTimestamp;

@@ -18,15 +18,16 @@ repositories {
     url "https://dl.bintray.com/getnova/maven"
   }
   jcenter()
+//mavenLocal()
 }
 
 dependencies {
   annotationProcessor("org.springframework:spring-context-indexer:5.2.8.RELEASE")
 
-  implementation('net.getnova.backend:nova-boot:edge')
-  implementation('net.getnova.backend:nova-data-jpa:edge')
-  implementation('net.getnova.backend:nova-api:edge')
-  implementation('net.getnova.backend:nova-json:edge')
+  compileOnly('net.getnova.backend:nova-boot:edge')
+  compileOnly('net.getnova.backend:nova-data-jpa:edge')
+  compileOnly('net.getnova.backend:nova-api:edge')
+  compileOnly('net.getnova.backend:nova-json:edge')
 }
 
 jar {
@@ -46,7 +47,7 @@ jar {
   }
 
   from {
-    configurations.compile.collect { it.isDirectory() || it.getName().toLowerCase().endsWith('.pom') ? it : zipTree(it) }
+    configurations.implementation.collect { it.isDirectory() || it.getName().toLowerCase().endsWith('.pom') ? it : zipTree(it) }
   }
 }
 
