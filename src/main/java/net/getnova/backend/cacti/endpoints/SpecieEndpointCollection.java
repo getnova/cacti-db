@@ -25,7 +25,7 @@ public final class SpecieEndpointCollection {
 
   @ApiEndpoint(id = "list", description = "Lists all species.")
   private ApiResponse list() {
-    return new ApiResponse(ApiResponseStatus.OK, this.specieRepository.findAll());
+    return new ApiResponse(ApiResponseStatus.OK, this.specieRepository.findByOrderByName());
   }
 
   @ApiEndpoint(id = "add", description = "Add a specie.")
