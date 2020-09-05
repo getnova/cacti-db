@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface CactusRepository extends JpaRepository<Cactus, UUID> {
 
-  List<Cactus> findByOrderByNumber();
+    List<Cactus> findByOrderByNumber();
 
-  Optional<Cactus> findByNumber(String number);
+    Optional<Cactus> findByNumber(String number);
 }

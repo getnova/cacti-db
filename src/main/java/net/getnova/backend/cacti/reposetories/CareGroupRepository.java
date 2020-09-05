@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CareGroupRepository extends JpaRepository<CareGroup, String> {
 
-  List<CareGroup> findByOrderById();
+    List<CareGroup> findByOrderById();
 }

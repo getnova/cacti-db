@@ -22,18 +22,18 @@ import net.getnova.backend.sql.model.TableModelAutoId;
 @Table(name = "cacti_form")
 public class Form extends TableModelAutoId implements JsonSerializable {
 
-  @Column(name = "name", nullable = false, updatable = true, length = 128)
-  private String name;
+    @Column(name = "name", nullable = false, updatable = true, length = 128)
+    private String name;
 
-  @ManyToOne
-  @JoinColumn(name = "specie_id", nullable = false, updatable = false)
-  private Specie specie;
+    @ManyToOne
+    @JoinColumn(name = "specie_id", nullable = false, updatable = false)
+    private Specie specie;
 
-  @Override
-  public final JsonElement serialize() {
-    return JsonBuilder.create("id", this.getId())
-      .add("name", this.getName())
-      .add("specieId", this.getSpecie().getId())
-      .build();
-  }
+    @Override
+    public final JsonElement serialize() {
+        return JsonBuilder.create("id", this.getId())
+                .add("name", this.getName())
+                .add("specieId", this.getSpecie().getId())
+                .build();
+    }
 }

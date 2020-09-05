@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class CactiException extends IOException {
 
-  public CactiException(final String message) {
-    super(message);
-  }
+    public CactiException(final String message) {
+        super(message);
+    }
 }

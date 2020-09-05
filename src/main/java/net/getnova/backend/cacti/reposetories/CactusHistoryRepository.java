@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface CactusHistoryRepository extends JpaRepository<CactusHistory, UUID> {
 
-  List<CactusHistory> findByCactusOrderByTimestamp(Cactus cactus);
+    List<CactusHistory> findByCactusOrderByTimestamp(Cactus cactus);
 }
