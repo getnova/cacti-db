@@ -11,10 +11,10 @@ import net.getnova.backend.cacti.reposetories.CareGroupRepository;
 @ApiEndpointCollection(id = "careGroup", description = "Handle all care groups.")
 public final class CareGroupEndpointCollection {
 
-    private final CareGroupRepository careGroupRepository;
+  private final CareGroupRepository careGroupRepository;
 
-    @ApiEndpoint(id = "list", description = "Lists all care groups.")
-    private ApiResponse list() {
-        return new ApiResponse(ApiResponseStatus.OK, this.careGroupRepository.findByOrderById());
-    }
+  @ApiEndpoint(id = "list", description = "Lists all care groups.")
+  private ApiResponse list() {
+    return new ApiResponse(ApiResponseStatus.OK, this.careGroupRepository.findByOrderById());
+  }
 }

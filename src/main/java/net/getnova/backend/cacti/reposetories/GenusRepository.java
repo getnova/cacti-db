@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface GenusRepository extends JpaRepository<Genus, UUID> {
 
-    List<Genus> findByOrderByName();
+  List<Genus> findByOrderByName();
 }

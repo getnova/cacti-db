@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface FormRepository extends JpaRepository<Form, UUID> {
 
-    List<Form> findByOrderByName();
+  List<Form> findByOrderByName();
 }

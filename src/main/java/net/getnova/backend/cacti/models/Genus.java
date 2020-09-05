@@ -17,6 +17,6 @@ import net.getnova.backend.sql.model.TableModelAutoId;
 @Table(name = "cacti_genus")
 public class Genus extends TableModelAutoId {
 
-    @Column(name = "name", nullable = false, updatable = true, length = 128)
-    private String name;
+  @Column(name = "name", nullable = false, updatable = true, length = 128)
+  private String name;
 }

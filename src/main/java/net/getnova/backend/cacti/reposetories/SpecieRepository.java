@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface SpecieRepository extends JpaRepository<Specie, UUID> {
 
-    List<Specie> findByOrderByName();
+  List<Specie> findByOrderByName();
 }
