@@ -1,10 +1,10 @@
 package net.getnova.backend.cacti.services;
 
+import javax.annotation.PostConstruct;
 import net.getnova.backend.cacti.models.CareGroup;
 import net.getnova.backend.cacti.reposetories.CareGroupRepository;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service

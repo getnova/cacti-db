@@ -1,18 +1,17 @@
 package net.getnova.backend.cacti;
 
+import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import net.getnova.backend.api.handler.websocket.WebsocketApiService;
-import net.getnova.backend.boot.module.Module;
+import net.getnova.backend.api.handler.playground.PlaygroundModule;
+import net.getnova.backend.api.handler.websocket.WebsocketApiModule;
 import net.getnova.backend.sql.JpaModule;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.annotation.PostConstruct;
-
 @Slf4j
 @ComponentScan
-@Module({JpaModule.class, WebsocketApiService.class})
+@Module({JpaModule.class, WebsocketApiModule.class, PlaygroundModule.class})
 @EnableJpaRepositories
 @EnableTransactionManagement
 public class CactiDatabase {
