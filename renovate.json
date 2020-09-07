@@ -17,6 +17,12 @@
         "getnova/nova-backend"
       ],
       "groupName": "Nova Backend"
+    },
+    {
+      "packagePatterns": [
+        "^io\\.freefair\\..+"
+      ],
+      "groupName": "Freefair Gradle Plugins"
     }
   ]
 }
