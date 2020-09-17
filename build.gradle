@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-  annotationProcessor("org.springframework:spring-context-indexer:5.2.8.RELEASE")
+  annotationProcessor("org.springframework:spring-context-indexer:5.2.9.RELEASE")
 
   implementation('net.getnova.backend:nova-api:edge')
   implementation('net.getnova.backend:nova-boot:edge')
