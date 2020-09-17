@@ -13,10 +13,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.getnova.backend.jpa.model.TableModelAutoId;
 import net.getnova.backend.json.JsonBuilder;
 import net.getnova.backend.json.JsonSerializable;
 import net.getnova.backend.json.JsonUtils;
-import net.getnova.backend.sql.model.TableModelAutoId;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;

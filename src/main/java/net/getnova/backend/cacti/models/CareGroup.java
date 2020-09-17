@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.getnova.backend.jpa.model.TableModel;
 import net.getnova.backend.json.JsonTransient;
-import net.getnova.backend.sql.model.TableModel;
 
 @Getter
 @Setter
