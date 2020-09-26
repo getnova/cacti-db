@@ -3,7 +3,7 @@ package net.getnova.backend.cacti.services;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import net.getnova.backend.cacti.models.CareGroup;
-import net.getnova.backend.cacti.reposetories.CareGroupRepository;
+import net.getnova.backend.cacti.repositories.CareGroupRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public final class CareGroupService {
     final List<CareGroup> careGroups = this.careGroupRepository.findAll();
 
     this.careGroupRepository.save(this.updateCareGroupVersion(careGroups, new CareGroup("1",
-      "Pflegegruppe 1", "tropische Uhrwälder, feuchtwarmes Klima", "Humusboden, pH 4.5 - 5.5, für Hydrokultur geeignet",
+      "Pflegegruppe 1", "tropische Urwälder, feuchtwarmes Klima", "Humusboden, pH 4.5 - 5.5, für Hydrokultur geeignet",
       null, "feuchtwarmer Stand", null, null, null,
       null, null, "über 10°C", "mäßig feucht", null)));
 

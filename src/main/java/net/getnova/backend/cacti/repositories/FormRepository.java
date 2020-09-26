@@ -1,4 +1,4 @@
-package net.getnova.backend.cacti.reposetories;
+package net.getnova.backend.cacti.repositories;
 
 import net.getnova.backend.cacti.models.Form;
 import org.springframework.data.jpa.repository.JpaRepository;

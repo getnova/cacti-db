@@ -1,4 +1,4 @@
-package net.getnova.backend.cacti.reposetories;
+package net.getnova.backend.cacti.repositories;
 
 import net.getnova.backend.cacti.models.Cactus;
 import net.getnova.backend.cacti.models.CactusHistory;

@@ -8,8 +8,8 @@ import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
 import net.getnova.backend.cacti.models.Form;
 import net.getnova.backend.cacti.models.Specie;
-import net.getnova.backend.cacti.reposetories.FormRepository;
-import net.getnova.backend.cacti.reposetories.SpecieRepository;
+import net.getnova.backend.cacti.repositories.FormRepository;
+import net.getnova.backend.cacti.repositories.SpecieRepository;
 
 import java.util.UUID;
 

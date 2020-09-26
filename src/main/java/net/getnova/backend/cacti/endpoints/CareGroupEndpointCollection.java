@@ -5,7 +5,7 @@ import net.getnova.backend.api.annotations.ApiEndpoint;
 import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
-import net.getnova.backend.cacti.reposetories.CareGroupRepository;
+import net.getnova.backend.cacti.repositories.CareGroupRepository;
 
 @RequiredArgsConstructor
 @ApiEndpointCollection(id = "careGroup", description = "Handle all care groups.")

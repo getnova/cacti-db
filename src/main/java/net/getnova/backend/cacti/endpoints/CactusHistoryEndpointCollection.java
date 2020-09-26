@@ -8,8 +8,8 @@ import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
 import net.getnova.backend.cacti.models.Cactus;
 import net.getnova.backend.cacti.models.CactusHistory;
-import net.getnova.backend.cacti.reposetories.CactusHistoryRepository;
-import net.getnova.backend.cacti.reposetories.CactusRepository;
+import net.getnova.backend.cacti.repositories.CactusHistoryRepository;
+import net.getnova.backend.cacti.repositories.CactusRepository;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

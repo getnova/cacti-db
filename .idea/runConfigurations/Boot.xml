@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Bootstrap" type="Application" factoryName="Application">
+  <configuration default="false" name="Boot" type="Application" factoryName="Application">
     <envs>
       <env name="SQL_SERVER_LOCATION" value="mariadb://[::1]:3306" />
       <env name="DEBUG" value="true" />

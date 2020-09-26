@@ -19,6 +19,6 @@
         <module name="cacti-db.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="14" />
+    <bytecodeTargetLevel target="15" />
   </component>
 </project>

@@ -12,16 +12,17 @@ import net.getnova.backend.cacti.models.CareGroup;
 import net.getnova.backend.cacti.models.Form;
 import net.getnova.backend.cacti.models.Genus;
 import net.getnova.backend.cacti.models.Specie;
-import net.getnova.backend.cacti.reposetories.CactusRepository;
-import net.getnova.backend.cacti.reposetories.CareGroupRepository;
-import net.getnova.backend.cacti.reposetories.FormRepository;
-import net.getnova.backend.cacti.reposetories.GenusRepository;
-import net.getnova.backend.cacti.reposetories.SpecieRepository;
+import net.getnova.backend.cacti.repositories.CactusRepository;
+import net.getnova.backend.cacti.repositories.CareGroupRepository;
+import net.getnova.backend.cacti.repositories.FormRepository;
+import net.getnova.backend.cacti.repositories.GenusRepository;
+import net.getnova.backend.cacti.repositories.SpecieRepository;
 import net.getnova.backend.json.JsonUtils;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -122,7 +123,8 @@ public final class CactusEndpointCollection {
     final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
     if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
 
-    if (this.cactusRepository.findByNumber(number).isPresent()) {
+    final Optional<Cactus> cactusByNumber = this.cactusRepository.findByNumber(number);
+    if (cactusByNumber.isEmpty() || !cactusByNumber.get().getId().equals(id)) {
       return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
     }
 

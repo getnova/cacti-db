@@ -7,7 +7,7 @@ import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
 import net.getnova.backend.cacti.models.Genus;
-import net.getnova.backend.cacti.reposetories.GenusRepository;
+import net.getnova.backend.cacti.repositories.GenusRepository;
 
 import java.util.UUID;
 
