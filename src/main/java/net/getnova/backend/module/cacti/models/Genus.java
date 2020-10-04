@@ -1,4 +1,4 @@
-package net.getnova.backend.cacti.models;
+package net.getnova.backend.module.cacti.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

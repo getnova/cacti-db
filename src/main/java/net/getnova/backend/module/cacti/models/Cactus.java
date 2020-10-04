@@ -1,4 +1,4 @@
-package net.getnova.backend.cacti.models;
+package net.getnova.backend.module.cacti.models;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

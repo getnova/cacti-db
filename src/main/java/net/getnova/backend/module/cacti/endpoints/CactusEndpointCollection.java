@@ -1,4 +1,4 @@
-package net.getnova.backend.cacti.endpoints;
+package net.getnova.backend.module.cacti.endpoints;
 
 import lombok.RequiredArgsConstructor;
 import net.getnova.backend.api.annotations.ApiEndpoint;
@@ -6,17 +6,17 @@ import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
-import net.getnova.backend.cacti.CactiException;
-import net.getnova.backend.cacti.models.Cactus;
-import net.getnova.backend.cacti.models.CareGroup;
-import net.getnova.backend.cacti.models.Form;
-import net.getnova.backend.cacti.models.Genus;
-import net.getnova.backend.cacti.models.Specie;
-import net.getnova.backend.cacti.repositories.CactusRepository;
-import net.getnova.backend.cacti.repositories.CareGroupRepository;
-import net.getnova.backend.cacti.repositories.FormRepository;
-import net.getnova.backend.cacti.repositories.GenusRepository;
-import net.getnova.backend.cacti.repositories.SpecieRepository;
+import net.getnova.backend.module.cacti.CactiException;
+import net.getnova.backend.module.cacti.models.Cactus;
+import net.getnova.backend.module.cacti.models.CareGroup;
+import net.getnova.backend.module.cacti.models.Form;
+import net.getnova.backend.module.cacti.models.Genus;
+import net.getnova.backend.module.cacti.models.Specie;
+import net.getnova.backend.module.cacti.repositories.CactusRepository;
+import net.getnova.backend.module.cacti.repositories.CareGroupRepository;
+import net.getnova.backend.module.cacti.repositories.FormRepository;
+import net.getnova.backend.module.cacti.repositories.GenusRepository;
+import net.getnova.backend.module.cacti.repositories.SpecieRepository;
 import net.getnova.backend.json.JsonUtils;
 
 import java.time.Duration;

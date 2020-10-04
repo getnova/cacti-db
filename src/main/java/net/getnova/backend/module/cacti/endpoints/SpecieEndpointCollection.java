@@ -1,4 +1,4 @@
-package net.getnova.backend.cacti.endpoints;
+package net.getnova.backend.module.cacti.endpoints;
 
 import lombok.RequiredArgsConstructor;
 import net.getnova.backend.api.annotations.ApiEndpoint;
@@ -6,10 +6,10 @@ import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
-import net.getnova.backend.cacti.models.Genus;
-import net.getnova.backend.cacti.models.Specie;
-import net.getnova.backend.cacti.repositories.GenusRepository;
-import net.getnova.backend.cacti.repositories.SpecieRepository;
+import net.getnova.backend.module.cacti.models.Genus;
+import net.getnova.backend.module.cacti.models.Specie;
+import net.getnova.backend.module.cacti.repositories.GenusRepository;
+import net.getnova.backend.module.cacti.repositories.SpecieRepository;
 
 import java.util.UUID;
 

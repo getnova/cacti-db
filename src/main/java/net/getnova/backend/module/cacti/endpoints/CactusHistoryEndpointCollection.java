@@ -1,4 +1,4 @@
-package net.getnova.backend.cacti.endpoints;
+package net.getnova.backend.module.cacti.endpoints;
 
 import lombok.RequiredArgsConstructor;
 import net.getnova.backend.api.annotations.ApiEndpoint;
@@ -6,10 +6,10 @@ import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
-import net.getnova.backend.cacti.models.Cactus;
-import net.getnova.backend.cacti.models.CactusHistory;
-import net.getnova.backend.cacti.repositories.CactusHistoryRepository;
-import net.getnova.backend.cacti.repositories.CactusRepository;
+import net.getnova.backend.module.cacti.models.Cactus;
+import net.getnova.backend.module.cacti.models.CactusHistory;
+import net.getnova.backend.module.cacti.repositories.CactusHistoryRepository;
+import net.getnova.backend.module.cacti.repositories.CactusRepository;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

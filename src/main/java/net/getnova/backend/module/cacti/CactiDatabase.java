@@ -1,4 +1,4 @@
-package net.getnova.backend.cacti;
+package net.getnova.backend.module.cacti;
 
 import net.getnova.backend.api.handler.rest.RestApiModule;
 import net.getnova.backend.api.handler.websocket.WebsocketApiModule;
