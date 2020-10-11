@@ -6,13 +6,14 @@ import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
+import net.getnova.backend.api.data.ApiType;
 import net.getnova.backend.module.cacti.models.Genus;
 import net.getnova.backend.module.cacti.repositories.GenusRepository;
 
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@ApiEndpointCollection(id = "genus", description = "Handle all genres.")
+@ApiEndpointCollection(id = "genus", description = "Handle all genres.", type = ApiType.WEBSOCKET)
 public final class GenusEndpointCollection {
 
   private final GenusRepository genusRepository;

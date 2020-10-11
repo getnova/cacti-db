@@ -6,6 +6,7 @@ import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
+import net.getnova.backend.api.data.ApiType;
 import net.getnova.backend.module.cacti.models.Cactus;
 import net.getnova.backend.module.cacti.models.CactusHistory;
 import net.getnova.backend.module.cacti.repositories.CactusHistoryRepository;
@@ -15,7 +16,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@ApiEndpointCollection(id = "cactus/history", description = "Handle all cacti.")
+@ApiEndpointCollection(id = "cactus/history", description = "Handle all cacti.", type = ApiType.WEBSOCKET)
 public final class CactusHistoryEndpointCollection {
 
   private final CactusRepository cactusRepository;

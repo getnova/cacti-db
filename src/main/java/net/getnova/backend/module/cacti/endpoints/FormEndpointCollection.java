@@ -6,6 +6,7 @@ import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
+import net.getnova.backend.api.data.ApiType;
 import net.getnova.backend.module.cacti.models.Form;
 import net.getnova.backend.module.cacti.models.Specie;
 import net.getnova.backend.module.cacti.repositories.FormRepository;
@@ -14,7 +15,7 @@ import net.getnova.backend.module.cacti.repositories.SpecieRepository;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@ApiEndpointCollection(id = "form", description = "Handle all froms.")
+@ApiEndpointCollection(id = "form", description = "Handle all froms.", type = ApiType.WEBSOCKET)
 public final class FormEndpointCollection {
 
   private final SpecieRepository specieRepository;

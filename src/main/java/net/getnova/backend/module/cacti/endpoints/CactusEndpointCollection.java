@@ -6,6 +6,8 @@ import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiResponseStatus;
+import net.getnova.backend.api.data.ApiType;
+import net.getnova.backend.json.JsonUtils;
 import net.getnova.backend.module.cacti.CactiException;
 import net.getnova.backend.module.cacti.models.Cactus;
 import net.getnova.backend.module.cacti.models.CareGroup;
@@ -17,7 +19,6 @@ import net.getnova.backend.module.cacti.repositories.CareGroupRepository;
 import net.getnova.backend.module.cacti.repositories.FormRepository;
 import net.getnova.backend.module.cacti.repositories.GenusRepository;
 import net.getnova.backend.module.cacti.repositories.SpecieRepository;
-import net.getnova.backend.json.JsonUtils;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -26,7 +27,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@ApiEndpointCollection(id = "cactus", description = "Handle all cacti.")
+@ApiEndpointCollection(id = "cactus", description = "Handle all cacti.", type = ApiType.WEBSOCKET)
 public final class CactusEndpointCollection {
 
   private final GenusRepository genusRepository;
