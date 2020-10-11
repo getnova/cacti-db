@@ -24,11 +24,11 @@ repositories {
 dependencies {
   annotationProcessor("org.springframework:spring-context-indexer:5.2.9.RELEASE")
 
-  compileOnly('net.getnova.backend:nova-api:edge')
-  compileOnly('net.getnova.backend:nova-boot:edge')
-  compileOnly('net.getnova.backend:nova-data-jpa:edge')
-  compileOnly('net.getnova.backend:nova-json:edge')
-  compileOnly('net.getnova.backend:nova-cdn:edge')
+  compileOnly('net.getnova.backend:nova-api:edge') { changing(true) }
+  compileOnly('net.getnova.backend:nova-boot:edge') { changing(true) }
+  compileOnly('net.getnova.backend:nova-data-jpa:edge') { changing(true) }
+  compileOnly('net.getnova.backend:nova-json:edge') { changing(true) }
+  compileOnly('net.getnova.backend:nova-cdn:edge') { changing(true) }
 }
 
 jar {
