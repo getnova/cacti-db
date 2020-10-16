@@ -1,11 +1,11 @@
 package net.getnova.backend.module.cacti.endpoints;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.RequiredArgsConstructor;
 import net.getnova.backend.api.annotations.ApiEndpoint;
 import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
-import net.getnova.backend.api.data.ApiResponseStatus;
 import net.getnova.backend.api.data.ApiType;
 import net.getnova.backend.json.JsonUtils;
 import net.getnova.backend.module.cacti.CactiException;
@@ -38,14 +38,14 @@ public final class CactusEndpointCollection {
 
   @ApiEndpoint(id = "list", description = "Lists all cacti.")
   private ApiResponse list() {
-    return new ApiResponse(ApiResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.findByOrderByNumber(), cactus -> cactus.serialize(true)));
+    return new ApiResponse(HttpResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.findByOrderByNumber(), cactus -> cactus.serialize(true)));
   }
 
   @ApiEndpoint(id = "get", description = "Return the cactus with the specified id.")
   private ApiResponse get(@ApiParameter(id = "id", description = "The id of the cactus.") final UUID id) {
     final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
-    if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
-    return new ApiResponse(ApiResponseStatus.OK, cactus);
+    if (cactus == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "CACTUS");
+    return new ApiResponse(HttpResponseStatus.OK, cactus);
   }
 
   @ApiEndpoint(id = "add", description = "Add a cactus.")
@@ -54,7 +54,7 @@ public final class CactusEndpointCollection {
                           @ApiParameter(id = "subType", description = "The type of the sub type.", required = false) final String subType) {
 
     if (this.cactusRepository.findByNumber(number).isPresent()) {
-      return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
+      return new ApiResponse(HttpResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
     }
 
     final Cactus cactus = new Cactus(number);
@@ -62,10 +62,10 @@ public final class CactusEndpointCollection {
     try {
       this.setSubType(cactus, subId, subType);
     } catch (CactiException e) {
-      return new ApiResponse(ApiResponseStatus.NOT_FOUND, e.getMessage());
+      return new ApiResponse(HttpResponseStatus.NOT_FOUND, e.getMessage());
     }
 
-    return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.save(cactus).serialize(true));
+    return new ApiResponse(HttpResponseStatus.OK, this.cactusRepository.save(cactus).serialize(true));
   }
 
   @ApiEndpoint(id = "updateNumber", description = "Updates only the number of a cactus.")
@@ -73,14 +73,14 @@ public final class CactusEndpointCollection {
                                    @ApiParameter(id = "number", description = "The new/old number of the cactus.") final String number) {
 
     if (this.cactusRepository.findByNumber(number).isPresent()) {
-      return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
+      return new ApiResponse(HttpResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
     }
 
     final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
-    if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
+    if (cactus == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "CACTUS");
 
     cactus.setNumber(number);
-    return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.save(cactus));
+    return new ApiResponse(HttpResponseStatus.OK, this.cactusRepository.save(cactus));
   }
 
   @ApiEndpoint(id = "update", description = "Update a cactus.")
@@ -122,11 +122,11 @@ public final class CactusEndpointCollection {
                              @ApiParameter(id = "careGroupRestTimeOther", description = "todo", required = false) final String careGroupRestTimeOther) {
 
     final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
-    if (cactus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
+    if (cactus == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "CACTUS");
 
     final Optional<Cactus> cactusByNumber = this.cactusRepository.findByNumber(number);
     if (cactusByNumber.isEmpty() || !cactusByNumber.get().getId().equals(id)) {
-      return new ApiResponse(ApiResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
+      return new ApiResponse(HttpResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
     }
 
     cactus.setNumber(number);
@@ -134,7 +134,7 @@ public final class CactusEndpointCollection {
     try {
       this.setSubType(cactus, subId, subType);
     } catch (CactiException e) {
-      return new ApiResponse(ApiResponseStatus.NOT_FOUND, e.getMessage());
+      return new ApiResponse(HttpResponseStatus.NOT_FOUND, e.getMessage());
     }
 
     cactus.setFieldNumber(fieldNumber);
@@ -168,7 +168,7 @@ public final class CactusEndpointCollection {
     CareGroup careGroup = null;
     if (careGroupId != null) {
       careGroup = this.careGroupRepository.findById(careGroupId).orElse(null);
-      if (careGroup == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CARE_GROUP");
+      if (careGroup == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "CARE_GROUP");
     }
     cactus.setCareGroup(careGroup);
 
@@ -196,7 +196,7 @@ public final class CactusEndpointCollection {
 
     /* <-- care group */
 
-    return new ApiResponse(ApiResponseStatus.OK, this.cactusRepository.save(cactus));
+    return new ApiResponse(HttpResponseStatus.OK, this.cactusRepository.save(cactus));
   }
 
   @ApiEndpoint(id = "delete", description = "Delete a cactus.")
@@ -204,9 +204,9 @@ public final class CactusEndpointCollection {
     final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
     if (cactus != null) {
       this.cactusRepository.delete(cactus);
-      return new ApiResponse(ApiResponseStatus.OK);
+      return new ApiResponse(HttpResponseStatus.OK);
     } else {
-      return new ApiResponse(ApiResponseStatus.NOT_FOUND, "CACTUS");
+      return new ApiResponse(HttpResponseStatus.NOT_FOUND, "CACTUS");
     }
   }
 

@@ -10,6 +10,8 @@ plugins {
 group 'net.getnova.backend.module'
 version version.toString().startsWith('v') ? version.toString().substring(1) : version
 
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_14
+
 tasks.withType(JavaCompile) {
   options.encoding = 'UTF-8'
 }

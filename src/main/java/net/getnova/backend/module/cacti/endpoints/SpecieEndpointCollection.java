@@ -1,11 +1,11 @@
 package net.getnova.backend.module.cacti.endpoints;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.RequiredArgsConstructor;
 import net.getnova.backend.api.annotations.ApiEndpoint;
 import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
-import net.getnova.backend.api.data.ApiResponseStatus;
 import net.getnova.backend.api.data.ApiType;
 import net.getnova.backend.module.cacti.models.Genus;
 import net.getnova.backend.module.cacti.models.Specie;
@@ -23,7 +23,7 @@ public final class SpecieEndpointCollection {
 
   @ApiEndpoint(id = "list", description = "Lists all species.")
   private ApiResponse list() {
-    return new ApiResponse(ApiResponseStatus.OK, this.specieRepository.findByOrderByName());
+    return new ApiResponse(HttpResponseStatus.OK, this.specieRepository.findByOrderByName());
   }
 
   @ApiEndpoint(id = "add", description = "Add a specie.")
@@ -31,9 +31,9 @@ public final class SpecieEndpointCollection {
                           @ApiParameter(id = "genusId", description = "The id of the genus.") final UUID genusId) {
 
     final Genus genus = this.genusRepository.findById(genusId).orElse(null);
-    if (genus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "GENUS");
+    if (genus == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "GENUS");
 
-    return new ApiResponse(ApiResponseStatus.OK, this.specieRepository.save(new Specie(name, genus)));
+    return new ApiResponse(HttpResponseStatus.OK, this.specieRepository.save(new Specie(name, genus)));
   }
 
   @ApiEndpoint(id = "update", description = "Update a specie.")
@@ -41,11 +41,11 @@ public final class SpecieEndpointCollection {
                              @ApiParameter(id = "name", description = "The new name of the specie.") final String name) {
 
     final Specie specie = this.specieRepository.findById(id).orElse(null);
-    if (specie == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "SPECIE");
+    if (specie == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "SPECIE");
 
     specie.setName(name);
 
-    return new ApiResponse(ApiResponseStatus.OK, this.specieRepository.save(specie));
+    return new ApiResponse(HttpResponseStatus.OK, this.specieRepository.save(specie));
   }
 
   @ApiEndpoint(id = "delete", description = "Delete a specie.")
@@ -53,9 +53,9 @@ public final class SpecieEndpointCollection {
     final Specie specie = this.specieRepository.findById(id).orElse(null);
     if (specie != null) {
       this.specieRepository.delete(specie);
-      return new ApiResponse(ApiResponseStatus.OK);
+      return new ApiResponse(HttpResponseStatus.OK);
     } else {
-      return new ApiResponse(ApiResponseStatus.NOT_FOUND, "FORM");
+      return new ApiResponse(HttpResponseStatus.NOT_FOUND, "FORM");
     }
   }
 }

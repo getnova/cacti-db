@@ -1,11 +1,11 @@
 package net.getnova.backend.module.cacti.endpoints;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.RequiredArgsConstructor;
 import net.getnova.backend.api.annotations.ApiEndpoint;
 import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
-import net.getnova.backend.api.data.ApiResponseStatus;
 import net.getnova.backend.api.data.ApiType;
 import net.getnova.backend.module.cacti.models.Genus;
 import net.getnova.backend.module.cacti.repositories.GenusRepository;
@@ -20,22 +20,22 @@ public final class GenusEndpointCollection {
 
   @ApiEndpoint(id = "list", description = "Lists all genres.")
   private ApiResponse list() {
-    return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.findByOrderByName());
+    return new ApiResponse(HttpResponseStatus.OK, this.genusRepository.findByOrderByName());
   }
 
   @ApiEndpoint(id = "add", description = "Add a genus.")
   private ApiResponse add(@ApiParameter(id = "name", description = "The name of the genus.") final String name) {
-    return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.save(new Genus(name)));
+    return new ApiResponse(HttpResponseStatus.OK, this.genusRepository.save(new Genus(name)));
   }
 
   @ApiEndpoint(id = "update", description = "Update a genus.")
   private ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing genus.") final UUID id,
                              @ApiParameter(id = "name", description = "The new name of the genus.") final String name) {
     final Genus genus = this.genusRepository.findById(id).orElse(null);
-    if (genus == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "GENUS");
+    if (genus == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "GENUS");
 
     genus.setName(name);
-    return new ApiResponse(ApiResponseStatus.OK, this.genusRepository.save(genus));
+    return new ApiResponse(HttpResponseStatus.OK, this.genusRepository.save(genus));
   }
 
   @ApiEndpoint(id = "delete", description = "Delete a genus.")
@@ -43,9 +43,9 @@ public final class GenusEndpointCollection {
     final Genus genus = this.genusRepository.findById(id).orElse(null);
     if (genus != null) {
       this.genusRepository.delete(genus);
-      return new ApiResponse(ApiResponseStatus.OK);
+      return new ApiResponse(HttpResponseStatus.OK);
     } else {
-      return new ApiResponse(ApiResponseStatus.NOT_FOUND, "FORM");
+      return new ApiResponse(HttpResponseStatus.NOT_FOUND, "FORM");
     }
   }
 }

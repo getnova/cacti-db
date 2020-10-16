@@ -1,11 +1,11 @@
 package net.getnova.backend.module.cacti.endpoints;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.RequiredArgsConstructor;
 import net.getnova.backend.api.annotations.ApiEndpoint;
 import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
-import net.getnova.backend.api.data.ApiResponseStatus;
 import net.getnova.backend.api.data.ApiType;
 import net.getnova.backend.module.cacti.models.Form;
 import net.getnova.backend.module.cacti.models.Specie;
@@ -23,7 +23,7 @@ public final class FormEndpointCollection {
 
   @ApiEndpoint(id = "list", description = "Lists all forms.")
   private ApiResponse list() {
-    return new ApiResponse(ApiResponseStatus.OK, this.formRepository.findByOrderByName());
+    return new ApiResponse(HttpResponseStatus.OK, this.formRepository.findByOrderByName());
   }
 
   @ApiEndpoint(id = "add", description = "Add a form.")
@@ -31,9 +31,9 @@ public final class FormEndpointCollection {
                           @ApiParameter(id = "specieId", description = "The id of the form.") final UUID id) {
 
     final Specie specie = this.specieRepository.findById(id).orElse(null);
-    if (specie == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "SPECIE");
+    if (specie == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "SPECIE");
 
-    return new ApiResponse(ApiResponseStatus.OK, this.formRepository.save(new Form(name, specie)));
+    return new ApiResponse(HttpResponseStatus.OK, this.formRepository.save(new Form(name, specie)));
   }
 
   @ApiEndpoint(id = "update", description = "Update a form.")
@@ -41,11 +41,11 @@ public final class FormEndpointCollection {
                              @ApiParameter(id = "name", description = "The new name of the form.") final String name) {
 
     final Form form = this.formRepository.findById(id).orElse(null);
-    if (form == null) return new ApiResponse(ApiResponseStatus.NOT_FOUND, "FORM");
+    if (form == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "FORM");
 
     form.setName(name);
 
-    return new ApiResponse(ApiResponseStatus.OK, this.formRepository.save(form));
+    return new ApiResponse(HttpResponseStatus.OK, this.formRepository.save(form));
   }
 
   @ApiEndpoint(id = "delete", description = "Delete a form.")
@@ -53,9 +53,9 @@ public final class FormEndpointCollection {
     final Form form = this.formRepository.findById(id).orElse(null);
     if (form != null) {
       this.formRepository.delete(form);
-      return new ApiResponse(ApiResponseStatus.OK);
+      return new ApiResponse(HttpResponseStatus.OK);
     } else {
-      return new ApiResponse(ApiResponseStatus.NOT_FOUND, "FORM");
+      return new ApiResponse(HttpResponseStatus.NOT_FOUND, "FORM");
     }
   }
 }
