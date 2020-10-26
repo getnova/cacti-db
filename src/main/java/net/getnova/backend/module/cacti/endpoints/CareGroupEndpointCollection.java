@@ -16,6 +16,6 @@ public final class CareGroupEndpointCollection {
 
   @ApiEndpoint(id = "list", description = "Lists all care groups.")
   private ApiResponse list() {
-    return new ApiResponse(HttpResponseStatus.OK, this.careGroupRepository.findByOrderById());
+    return new ApiResponse(HttpResponseStatus.OK, this.careGroupRepository.findAllByOrderById());
   }
 }

@@ -20,7 +20,7 @@ public final class GenusEndpointCollection {
 
   @ApiEndpoint(id = "list", description = "Lists all genres.")
   private ApiResponse list() {
-    return new ApiResponse(HttpResponseStatus.OK, this.genusRepository.findByOrderByName());
+    return new ApiResponse(HttpResponseStatus.OK, this.genusRepository.findAllByOrderByName());
   }
 
   @ApiEndpoint(id = "add", description = "Add a genus.")

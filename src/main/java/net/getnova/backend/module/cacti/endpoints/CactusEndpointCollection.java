@@ -38,7 +38,7 @@ public final class CactusEndpointCollection {
 
   @ApiEndpoint(id = "list", description = "Lists all cacti.")
   private ApiResponse list() {
-    return new ApiResponse(HttpResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.findByOrderByNumber(), cactus -> cactus.serialize(true)));
+    return new ApiResponse(HttpResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.findAllByOrderByNumber(), cactus -> cactus.serialize(true)));
   }
 
   @ApiEndpoint(id = "get", description = "Return the cactus with the specified id.")

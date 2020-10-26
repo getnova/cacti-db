@@ -28,7 +28,7 @@ public final class CactusHistoryEndpointCollection {
     final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
     if (cactus == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "CACTUS");
 
-    return new ApiResponse(HttpResponseStatus.OK, this.cactusHistoryRepository.findByCactusOrderByTimestamp(cactus));
+    return new ApiResponse(HttpResponseStatus.OK, this.cactusHistoryRepository.findAllByCactusOrderByTimestamp(cactus));
   }
 
   @ApiEndpoint(id = "add", description = "Add a cactus history entry.")

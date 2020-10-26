@@ -1,78 +1,28 @@
 plugins {
-  id 'java'
-  id 'io.freefair.git-version' version '5.2.1'
-  id 'io.freefair.lombok' version '5.2.1'
-  id 'io.freefair.javadoc-utf-8' version '5.2.1'
-  id 'com.github.johnrengelman.shadow' version '6.1.0'
-//  id 'checkstyle'
+    id 'java'
+    id 'nebula.project' version '7.0.9'
+    id 'io.freefair.lombok' version '5.2.1'
+    id 'io.freefair.git-version' version '5.2.1'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    // id 'checkstyle'
 }
 
 group 'net.getnova.backend.module'
 version version.toString().startsWith('v') ? version.toString().substring(1) : version
+version version.toString() == 'master-SNAPSHOT' ? "edge" : version
 
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_14
-
-tasks.withType(JavaCompile) {
-  options.encoding = 'UTF-8'
-}
-
-repositories {
-  maven {
-    url "https://dl.bintray.com/getnova/maven"
-  }
-  jcenter()
-}
+apply from: "${rootDir}/gradle/java.gradle"
+apply from: "${rootDir}/gradle/lombok.gradle"
+apply from: "${rootDir}/gradle/test.gradle"
+// apply from: "${rootDir}/gradle/checkstyle.gradle"
 
 dependencies {
-  annotationProcessor("org.springframework:spring-context-indexer:5.2.9.RELEASE")
+    annotationProcessor("org.springframework:spring-context-indexer:5.2.9.RELEASE")
+    compileOnly('org.postgresql:postgresql:42.2.18')
 
-  compileOnly('net.getnova.backend:nova-api:edge') { changing(true) }
-  compileOnly('net.getnova.backend:nova-boot:edge') { changing(true) }
-  compileOnly('net.getnova.backend:nova-data-jpa:edge') { changing(true) }
-  compileOnly('net.getnova.backend:nova-json:edge') { changing(true) }
-  compileOnly('net.getnova.backend:nova-cdn:edge') { changing(true) }
-}
-
-jar {
-  manifest {
-    attributes([
-      'Specification-Title'     : project.name,
-      'Specification-Vendor'    : 'Nova Project (https://github.com/getnova)',
-      'Specification-Version'   : project.version,
-      'Implementation-Title'    : project.name,
-      'Implementation-Version'  : project.version,
-      'Implementation-Vendor'   : 'Nova Project (https://github.com/getnova)',
-      'Implementation-Timestamp': new Date().format('yyyy-MM-dd\'T\'HH:mm:ssZ'),
-      'Module-Name'             : project.name,
-      'Module-Version'          : project.version,
-      'Module-Main-Class'       : 'net.getnova.backend.module.cacti.CactiDatabase'
-    ])
-  }
-}
-
-lombok {
-  config.put('lombok.equalsandhashcode.callsuper', 'CALL')
-}
-
-//def checkstyleDir = "${rootDir}/config/checkstyle"
-//
-//tasks.withType(Checkstyle) {
-//  reports {
-//    xml.enabled false
-//    html.enabled true
-//  }
-//}
-//
-//checkstyleMain {
-//  configFile = file("${checkstyleDir}/main.xml")
-//}
-//
-//checkstyleTest {
-//  configFile = file("${checkstyleDir}/test.xml")
-//}
-
-javadoc {
-  if (JavaVersion.current().isJava9Compatible()) {
-    options.addBooleanOption('html5', true)
-  }
+    compileOnly('net.getnova.backend:nova-api:edge') { changing(true) }
+    compileOnly('net.getnova.backend:nova-boot:edge') { changing(true) }
+    compileOnly('net.getnova.backend:nova-data-jpa:edge') { changing(true) }
+    compileOnly('net.getnova.backend:nova-json:edge') { changing(true) }
+    compileOnly('net.getnova.backend:nova-cdn:edge') { changing(true) }
 }

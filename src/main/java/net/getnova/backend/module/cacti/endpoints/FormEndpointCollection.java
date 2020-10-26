@@ -23,7 +23,7 @@ public final class FormEndpointCollection {
 
   @ApiEndpoint(id = "list", description = "Lists all forms.")
   private ApiResponse list() {
-    return new ApiResponse(HttpResponseStatus.OK, this.formRepository.findByOrderByName());
+    return new ApiResponse(HttpResponseStatus.OK, this.formRepository.findAllByOrderByName());
   }
 
   @ApiEndpoint(id = "add", description = "Add a form.")
