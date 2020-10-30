@@ -117,12 +117,13 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
   public final JsonElement serialize() {
     final CareGroup careGroup = this.getCareGroup();
 
-    return JsonBuilder.create("id", this.getId())
+    return JsonBuilder
+      .create("id", this.getId())
       .add("number", this.getNumber())
 
-      .add("genus", this.getGenus())
-      .add("specie", this.getSpecie())
-      .add("form", this.getForm())
+      .add("genusId", this.getGenus() == null ? null : this.getGenus().getId())
+      .add("specieId", this.getSpecie() == null ? null : this.getSpecie().getId())
+      .add("formId", this.getSpecie() == null ? null : this.getSpecie().getId())
 
       .add("fieldNumber", this.getFieldNumber())
       .add("synonyms", this.getSynonyms())
@@ -137,8 +138,10 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
 
       .add("flowerColor", this.getFlowerColor())
 
-      .add("careGroup", JsonBuilder.create("id", careGroup == null ? null : careGroup.getId())
+      .add("careGroup", JsonBuilder
+        .create("id", careGroup == null ? null : careGroup.getId())
         .add("name", careGroup == null ? null : careGroup.getName())
+
         .add("home", this.getCareGroupValue(careGroup, this.getCareGroupHome(), CareGroup::getHome))
         .add("soil", this.getCareGroupValue(careGroup, this.getCareGroupSoil(), CareGroup::getSoil))
 
