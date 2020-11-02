@@ -24,14 +24,14 @@ public class FormEndpointCollection {
   private final FormRepository formRepository;
 
   @ApiEndpoint(id = "list", description = "Lists all forms.")
-  protected ApiResponse list() {
+  public ApiResponse list() {
     return new ApiResponse(HttpResponseStatus.OK, this.formRepository.findAllByOrderByName());
   }
 
   @Transactional
   @ApiEndpoint(id = "add", description = "Add a form.")
-  protected ApiResponse add(@ApiParameter(id = "name", description = "The name of the specie.") final String name,
-                            @ApiParameter(id = "specieId", description = "The id of the form.") final UUID id) {
+  public ApiResponse add(@ApiParameter(id = "name", description = "The name of the specie.") final String name,
+                         @ApiParameter(id = "specieId", description = "The id of the form.") final UUID id) {
 
     final Optional<Specie> specie = this.specieRepository.findById(id);
     if (specie.isEmpty()) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "SPECIE");
@@ -41,8 +41,8 @@ public class FormEndpointCollection {
 
   @Transactional
   @ApiEndpoint(id = "update", description = "Update a form.")
-  protected ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing form.") final UUID id,
-                               @ApiParameter(id = "name", description = "The new name of the form.") final String name) {
+  public ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing form.") final UUID id,
+                            @ApiParameter(id = "name", description = "The new name of the form.") final String name) {
 
     final Form form = this.formRepository.findById(id).orElse(null);
     if (form == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "FORM");
@@ -54,7 +54,7 @@ public class FormEndpointCollection {
 
   @Transactional
   @ApiEndpoint(id = "delete", description = "Delete a form.")
-  protected ApiResponse delete(@ApiParameter(id = "id", description = "The id of the form, witch should be deleted.") final UUID id) {
+  public ApiResponse delete(@ApiParameter(id = "id", description = "The id of the form, witch should be deleted.") final UUID id) {
     final Optional<Form> form = this.formRepository.findById(id);
     if (form.isEmpty()) {
       return new ApiResponse(HttpResponseStatus.NOT_FOUND, "FORM");

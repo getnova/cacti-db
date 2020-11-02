@@ -24,14 +24,14 @@ public class SpecieEndpointCollection {
   private final SpecieRepository specieRepository;
 
   @ApiEndpoint(id = "list", description = "Lists all species.")
-  protected ApiResponse list() {
+  public ApiResponse list() {
     return new ApiResponse(HttpResponseStatus.OK, this.specieRepository.findAllByOrderByName());
   }
 
   @Transactional
   @ApiEndpoint(id = "add", description = "Add a specie.")
-  protected ApiResponse add(@ApiParameter(id = "name", description = "The name of the specie.") final String name,
-                            @ApiParameter(id = "genusId", description = "The id of the genus.") final UUID genusId) {
+  public ApiResponse add(@ApiParameter(id = "name", description = "The name of the specie.") final String name,
+                         @ApiParameter(id = "genusId", description = "The id of the genus.") final UUID genusId) {
 
     final Optional<Genus> genus = this.genusRepository.findById(genusId);
     if (genus.isEmpty()) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "GENUS");
@@ -41,8 +41,8 @@ public class SpecieEndpointCollection {
 
   @Transactional
   @ApiEndpoint(id = "update", description = "Update a specie.")
-  protected ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing specie.") final UUID id,
-                               @ApiParameter(id = "name", description = "The new name of the specie.") final String name) {
+  public ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing specie.") final UUID id,
+                            @ApiParameter(id = "name", description = "The new name of the specie.") final String name) {
 
     final Specie specie = this.specieRepository.findById(id).orElse(null);
     if (specie == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "SPECIE");
@@ -54,7 +54,7 @@ public class SpecieEndpointCollection {
 
   @Transactional
   @ApiEndpoint(id = "delete", description = "Delete a specie.")
-  protected ApiResponse delete(@ApiParameter(id = "id", description = "The id of the specie, witch should be deleted.") final UUID id) {
+  public ApiResponse delete(@ApiParameter(id = "id", description = "The id of the specie, witch should be deleted.") final UUID id) {
     final Optional<Specie> specie = this.specieRepository.findById(id);
     if (specie.isEmpty()) {
       return new ApiResponse(HttpResponseStatus.NOT_FOUND, "FORM");

@@ -38,12 +38,12 @@ public class CactusEndpointCollection {
   private final CactusRepository cactusRepository;
 
   @ApiEndpoint(id = "list", description = "Lists all cacti.")
-  protected ApiResponse list() {
-    return new ApiResponse(HttpResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.findAllByOrderByNumber(), cactus -> cactus.serialize(true)));
+  public ApiResponse list() {
+    return new ApiResponse(HttpResponseStatus.OK, JsonUtils.toArray(this.cactusRepository.findAllByOrderByNumber(), cactus -> cactus.serializeSmall()));
   }
 
   @ApiEndpoint(id = "get", description = "Return the cactus with the specified id.")
-  protected ApiResponse get(@ApiParameter(id = "id", description = "The id of the cactus.") final UUID id) {
+  public ApiResponse get(@ApiParameter(id = "id", description = "The id of the cactus.") final UUID id) {
     final Optional<Cactus> cactus = this.cactusRepository.findById(id);
     if (cactus.isEmpty()) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "CACTUS");
     return new ApiResponse(HttpResponseStatus.OK, cactus.get());
@@ -51,9 +51,9 @@ public class CactusEndpointCollection {
 
   @Transactional
   @ApiEndpoint(id = "add", description = "Add a cactus.")
-  protected ApiResponse add(@ApiParameter(id = "number", description = "The number of the cactus.") final String number,
-                            @ApiParameter(id = "subId", description = "The id of the sub type.", required = false) final UUID subId,
-                            @ApiParameter(id = "subType", description = "The type of the sub type.", required = false) final String subType) {
+  public ApiResponse add(@ApiParameter(id = "number", description = "The number of the cactus.") final String number,
+                         @ApiParameter(id = "subId", description = "The id of the sub type.", required = false) final UUID subId,
+                         @ApiParameter(id = "subType", description = "The type of the sub type.", required = false) final String subType) {
 
     if (this.cactusRepository.findByNumber(number).isPresent()) {
       return new ApiResponse(HttpResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
@@ -67,13 +67,13 @@ public class CactusEndpointCollection {
       return new ApiResponse(HttpResponseStatus.NOT_FOUND, e.getMessage());
     }
 
-    return new ApiResponse(HttpResponseStatus.OK, this.cactusRepository.save(cactus).serialize(true));
+    return new ApiResponse(HttpResponseStatus.OK, this.cactusRepository.save(cactus).serializeSmall());
   }
 
   @Transactional
   @ApiEndpoint(id = "updateNumber", description = "Updates only the number of a cactus.")
-  protected ApiResponse updateNumber(@ApiParameter(id = "id", description = "The id of the existing cactus.") final UUID id,
-                                     @ApiParameter(id = "number", description = "The new/old number of the cactus.") final String number) {
+  public ApiResponse updateNumber(@ApiParameter(id = "id", description = "The id of the existing cactus.") final UUID id,
+                                  @ApiParameter(id = "number", description = "The new/old number of the cactus.") final String number) {
 
     if (this.cactusRepository.findByNumber(number).isPresent()) {
       return new ApiResponse(HttpResponseStatus.BAD_REQUEST, "NUMBER_ALREADY_EXIST");
@@ -88,42 +88,42 @@ public class CactusEndpointCollection {
 
   @Transactional
   @ApiEndpoint(id = "update", description = "Update a cactus.")
-  protected ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing cactus.") final UUID id,
-                               @ApiParameter(id = "number", description = "The new/old number of the cactus.") final String number,
+  public ApiResponse update(@ApiParameter(id = "id", description = "The id of the existing cactus.") final UUID id,
+                            @ApiParameter(id = "number", description = "The new/old number of the cactus.") final String number,
 
-                               @ApiParameter(id = "subId", description = "The id of the sub type.", required = false) final UUID subId,
-                               @ApiParameter(id = "subType", description = "The type of the sub type.", required = false) final String subType,
+                            @ApiParameter(id = "subId", description = "The id of the sub type.", required = false) final UUID subId,
+                            @ApiParameter(id = "subType", description = "The type of the sub type.", required = false) final String subType,
 
-                               @ApiParameter(id = "fieldNumber", description = "todo", required = false) final String fieldNumber,
-                               @ApiParameter(id = "synonyms", description = "todo", required = false) final String synonyms,
+                            @ApiParameter(id = "fieldNumber", description = "todo", required = false) final String fieldNumber,
+                            @ApiParameter(id = "synonyms", description = "todo", required = false) final String synonyms,
 
-                               @ApiParameter(id = "acquisitionTimestamp", description = "todo", required = false) final OffsetDateTime acquisitionTimestamp,
-                               @ApiParameter(id = "acquisitionAge", description = "todo", required = false) final Duration acquisitionAge,
-                               @ApiParameter(id = "acquisitionPlace", description = "todo", required = false) final String acquisitionPlace,
-                               @ApiParameter(id = "acquisitionPlantType", description = "todo", required = false) final String acquisitionPlantType,
+                            @ApiParameter(id = "acquisitionTimestamp", description = "todo", required = false) final OffsetDateTime acquisitionTimestamp,
+                            @ApiParameter(id = "acquisitionAge", description = "todo", required = false) final Duration acquisitionAge,
+                            @ApiParameter(id = "acquisitionPlace", description = "todo", required = false) final String acquisitionPlace,
+                            @ApiParameter(id = "acquisitionPlantType", description = "todo", required = false) final String acquisitionPlantType,
 
-                               @ApiParameter(id = "stateNoLongerInPossessionTimestamp",
-                                 description = "todo", required = false) final OffsetDateTime stateNoLongerInPossessionTimestamp,
-                               @ApiParameter(id = "stateNoLongerInPossessionReason", description = "todo", required = false) final String stateNoLongerInPossessionReason,
-                               @ApiParameter(id = "stateVitality", description = "todo", required = false) final String stateVitality,
+                            @ApiParameter(id = "stateNoLongerInPossessionTimestamp",
+                              description = "todo", required = false) final OffsetDateTime stateNoLongerInPossessionTimestamp,
+                            @ApiParameter(id = "stateNoLongerInPossessionReason", description = "todo", required = false) final String stateNoLongerInPossessionReason,
+                            @ApiParameter(id = "stateVitality", description = "todo", required = false) final String stateVitality,
 
-                               @ApiParameter(id = "flowerColor", description = "todo", required = false) final String flowerColor,
+                            @ApiParameter(id = "flowerColor", description = "todo", required = false) final String flowerColor,
 
-                               @ApiParameter(id = "careGroupId", description = "todo", required = false) final String careGroupId,
-                               @ApiParameter(id = "careGroupHome", description = "todo", required = false) final String careGroupHome,
-                               @ApiParameter(id = "careGroupSoil", description = "todo", required = false) final String careGroupSoil,
+                            @ApiParameter(id = "careGroupId", description = "todo", required = false) final String careGroupId,
+                            @ApiParameter(id = "careGroupHome", description = "todo", required = false) final String careGroupHome,
+                            @ApiParameter(id = "careGroupSoil", description = "todo", required = false) final String careGroupSoil,
 
-                               @ApiParameter(id = "careGroupGrowTimeLight", description = "todo", required = false) final String careGroupGrowTimeLight,
-                               @ApiParameter(id = "careGroupGrowTimeAir", description = "todo", required = false) final String careGroupGrowTimeAir,
-                               @ApiParameter(id = "careGroupGrowTimeTemperature", description = "todo", required = false) final String careGroupGrowTimeTemperature,
-                               @ApiParameter(id = "careGroupGrowTimeHumidity", description = "todo", required = false) final String careGroupGrowTimeHumidity,
-                               @ApiParameter(id = "careGroupGrowTimeOther", description = "todo", required = false) final String careGroupGrowTimeOther,
+                            @ApiParameter(id = "careGroupGrowTimeLight", description = "todo", required = false) final String careGroupGrowTimeLight,
+                            @ApiParameter(id = "careGroupGrowTimeAir", description = "todo", required = false) final String careGroupGrowTimeAir,
+                            @ApiParameter(id = "careGroupGrowTimeTemperature", description = "todo", required = false) final String careGroupGrowTimeTemperature,
+                            @ApiParameter(id = "careGroupGrowTimeHumidity", description = "todo", required = false) final String careGroupGrowTimeHumidity,
+                            @ApiParameter(id = "careGroupGrowTimeOther", description = "todo", required = false) final String careGroupGrowTimeOther,
 
-                               @ApiParameter(id = "careGroupRestTimeLight", description = "todo", required = false) final String careGroupRestTimeLight,
-                               @ApiParameter(id = "careGroupRestTimeAir", description = "todo", required = false) final String careGroupRestTimeAir,
-                               @ApiParameter(id = "careGroupRestTimeTemperature", description = "todo", required = false) final String careGroupRestTimeTemperature,
-                               @ApiParameter(id = "careGroupRestTimeHumidity", description = "todo", required = false) final String careGroupRestTimeHumidity,
-                               @ApiParameter(id = "careGroupRestTimeOther", description = "todo", required = false) final String careGroupRestTimeOther) {
+                            @ApiParameter(id = "careGroupRestTimeLight", description = "todo", required = false) final String careGroupRestTimeLight,
+                            @ApiParameter(id = "careGroupRestTimeAir", description = "todo", required = false) final String careGroupRestTimeAir,
+                            @ApiParameter(id = "careGroupRestTimeTemperature", description = "todo", required = false) final String careGroupRestTimeTemperature,
+                            @ApiParameter(id = "careGroupRestTimeHumidity", description = "todo", required = false) final String careGroupRestTimeHumidity,
+                            @ApiParameter(id = "careGroupRestTimeOther", description = "todo", required = false) final String careGroupRestTimeOther) {
 
     final Cactus cactus = this.cactusRepository.findById(id).orElse(null);
     if (cactus == null) return new ApiResponse(HttpResponseStatus.NOT_FOUND, "CACTUS");
@@ -205,7 +205,7 @@ public class CactusEndpointCollection {
 
   @Transactional
   @ApiEndpoint(id = "delete", description = "Delete a cactus.")
-  protected ApiResponse delete(@ApiParameter(id = "id", description = "The id of the cactus, witch should be deleted.") final UUID id) {
+  public ApiResponse delete(@ApiParameter(id = "id", description = "The id of the cactus, witch should be deleted.") final UUID id) {
     final Optional<Cactus> cactus = this.cactusRepository.findById(id);
     if (cactus.isEmpty()) {
       return new ApiResponse(HttpResponseStatus.NOT_FOUND, "CACTUS");

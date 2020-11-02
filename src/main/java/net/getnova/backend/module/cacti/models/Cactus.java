@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -31,15 +32,15 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
   @Column(name = "number", nullable = false, updatable = true, length = 128, unique = true)
   private String number;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "genus_id", nullable = true, updatable = true)
   private Genus genus;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "specie_id", nullable = true, updatable = true)
   private Specie specie;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "form_id", nullable = true, updatable = true)
   private Form form;
 
@@ -58,7 +59,7 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
   @Column(name = "flower_color", nullable = true, updatable = true, length = 128)
   private String flowerColor;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "care_group_id", nullable = true, updatable = true)
   private CareGroup careGroup;
 
@@ -102,11 +103,11 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
     this.number = number;
   }
 
-  public final JsonElement serialize(final boolean small) {
-    return !small
-      ? this.serialize()
-      : JsonBuilder.create("id", this.getId())
+  public final JsonElement serializeSmall() {
+    return JsonBuilder
+      .create("id", this.getId())
       .add("number", this.getNumber())
+
       .add("genusId", this.getGenus() == null ? null : this.getGenus().getId())
       .add("specieId", this.getSpecie() == null ? null : this.getSpecie().getId())
       .add("formId", this.getForm() == null ? null : this.getForm().getId())
@@ -117,14 +118,7 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
   public final JsonElement serialize() {
     final CareGroup careGroup = this.getCareGroup();
 
-    return JsonBuilder
-      .create("id", this.getId())
-      .add("number", this.getNumber())
-
-      .add("genusId", this.getGenus() == null ? null : this.getGenus().getId())
-      .add("specieId", this.getSpecie() == null ? null : this.getSpecie().getId())
-      .add("formId", this.getSpecie() == null ? null : this.getSpecie().getId())
-
+    return JsonBuilder.create(this.serializeSmall())
       .add("fieldNumber", this.getFieldNumber())
       .add("synonyms", this.getSynonyms())
 
@@ -186,16 +180,16 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
   @AllArgsConstructor
   public static class Acquisition implements JsonSerializable {
 
-    @Column(name = "timestamp", nullable = true, updatable = true)
+    @Column(name = "acquisition_timestamp", nullable = true, updatable = true)
     private OffsetDateTime timestamp;
 
-    @Column(name = "age", nullable = true, updatable = true)
+    @Column(name = "acquisition_age", nullable = true, updatable = true)
     private Duration age;
 
-    @Column(name = "place", nullable = true, updatable = true, length = 512)
+    @Column(name = "acquisition_place", nullable = true, updatable = true, length = 512)
     private String place;
 
-    @Column(name = "plant_type", nullable = true, updatable = true, length = 512)
+    @Column(name = "acquisition_plant_type", nullable = true, updatable = true, length = 512)
     private String plantType;
 
     @Override
@@ -215,13 +209,13 @@ public class Cactus extends TableModelAutoId implements JsonSerializable {
   @AllArgsConstructor
   public static class State implements JsonSerializable {
 
-    @Column(name = "no_longer_in_possession_timestamp", nullable = true, updatable = true)
+    @Column(name = "state_no_longer_in_possession_timestamp", nullable = true, updatable = true)
     private OffsetDateTime noLongerInPossessionTimestamp;
 
-    @Column(name = "no_longer_in_possession_reason", nullable = true, updatable = true)
+    @Column(name = "state_no_longer_in_possession_reason", nullable = true, updatable = true)
     private String noLongerInPossessionReason;
 
-    @Column(name = "vitality", nullable = true, updatable = true, length = 128)
+    @Column(name = "state_vitality", nullable = true, updatable = true, length = 128)
     private String vitality;
 
     @Override

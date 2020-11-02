@@ -3,6 +3,7 @@ package net.getnova.backend.module.cacti.models;
 import com.google.gson.JsonElement;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,7 +26,7 @@ public class Specie extends TableModelAutoId implements JsonSerializable {
   @Column(name = "name", nullable = false, updatable = true, length = 128)
   private String name;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "genus_id", nullable = false, updatable = false)
   private Genus genus;
 
