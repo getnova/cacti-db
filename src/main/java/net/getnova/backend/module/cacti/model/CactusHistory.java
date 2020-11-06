@@ -1,4 +1,4 @@
-package net.getnova.backend.module.cacti.models;
+package net.getnova.backend.module.cacti.model;
 
 import com.google.gson.JsonElement;
 import javax.persistence.Column;
@@ -15,26 +15,32 @@ import net.getnova.backend.jpa.model.TableModelAutoId;
 import net.getnova.backend.json.JsonBuilder;
 import net.getnova.backend.json.JsonSerializable;
 
+import java.time.OffsetDateTime;
+
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cacti_form")
-public class Form extends TableModelAutoId implements JsonSerializable {
-
-  @Column(name = "name", nullable = false, updatable = true, length = 128)
-  private String name;
+@Table(name = "cacti_cactus_history")
+public class CactusHistory extends TableModelAutoId implements JsonSerializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "specie_id", nullable = false, updatable = false)
-  private Specie specie;
+  @JoinColumn(name = "cactus_id", nullable = false, updatable = false)
+  private Cactus cactus;
+
+  @Column(name = "timestamp", nullable = false, updatable = true)
+  private OffsetDateTime timestamp;
+
+  @Column(name = "content", nullable = false, updatable = true, length = 2048)
+  private String content;
 
   @Override
   public final JsonElement serialize() {
     return JsonBuilder.create("id", this.getId())
-      .add("name", this.getName())
-      .add("specieId", this.getSpecie().getId())
+      .add("cactusId", this.getCactus().getId())
+      .add("timestamp", this.getTimestamp())
+      .add("content", this.getContent())
       .build();
   }
 }

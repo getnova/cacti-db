@@ -1,4 +1,4 @@
-package net.getnova.backend.module.cacti.endpoints;
+package net.getnova.backend.module.cacti.endpoint;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import javax.transaction.Transactional;
@@ -10,16 +10,16 @@ import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiType;
 import net.getnova.backend.json.JsonUtils;
 import net.getnova.backend.module.cacti.CactiException;
-import net.getnova.backend.module.cacti.models.Cactus;
-import net.getnova.backend.module.cacti.models.CareGroup;
-import net.getnova.backend.module.cacti.models.Form;
-import net.getnova.backend.module.cacti.models.Genus;
-import net.getnova.backend.module.cacti.models.Specie;
-import net.getnova.backend.module.cacti.repositories.CactusRepository;
-import net.getnova.backend.module.cacti.repositories.CareGroupRepository;
-import net.getnova.backend.module.cacti.repositories.FormRepository;
-import net.getnova.backend.module.cacti.repositories.GenusRepository;
-import net.getnova.backend.module.cacti.repositories.SpecieRepository;
+import net.getnova.backend.module.cacti.model.Cactus;
+import net.getnova.backend.module.cacti.model.CareGroup;
+import net.getnova.backend.module.cacti.model.Form;
+import net.getnova.backend.module.cacti.model.Genus;
+import net.getnova.backend.module.cacti.model.Specie;
+import net.getnova.backend.module.cacti.repository.CactusRepository;
+import net.getnova.backend.module.cacti.repository.CareGroupRepository;
+import net.getnova.backend.module.cacti.repository.FormRepository;
+import net.getnova.backend.module.cacti.repository.GenusRepository;
+import net.getnova.backend.module.cacti.repository.SpecieRepository;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;

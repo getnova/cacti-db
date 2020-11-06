@@ -1,4 +1,4 @@
-package net.getnova.backend.module.cacti.endpoints;
+package net.getnova.backend.module.cacti.endpoint;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import javax.transaction.Transactional;
@@ -8,10 +8,10 @@ import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiType;
-import net.getnova.backend.module.cacti.models.Cactus;
-import net.getnova.backend.module.cacti.models.CactusHistory;
-import net.getnova.backend.module.cacti.repositories.CactusHistoryRepository;
-import net.getnova.backend.module.cacti.repositories.CactusRepository;
+import net.getnova.backend.module.cacti.model.Cactus;
+import net.getnova.backend.module.cacti.model.CactusHistory;
+import net.getnova.backend.module.cacti.repository.CactusHistoryRepository;
+import net.getnova.backend.module.cacti.repository.CactusRepository;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;

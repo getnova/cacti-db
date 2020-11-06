@@ -1,4 +1,4 @@
-package net.getnova.backend.module.cacti.models;
+package net.getnova.backend.module.cacti.model;
 
 import com.google.gson.JsonElement;
 import javax.persistence.Column;

@@ -1,6 +1,6 @@
-package net.getnova.backend.module.cacti.repositories;
+package net.getnova.backend.module.cacti.repository;
 
-import net.getnova.backend.module.cacti.models.Form;
+import net.getnova.backend.module.cacti.model.Form;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

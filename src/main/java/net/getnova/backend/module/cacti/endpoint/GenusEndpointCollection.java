@@ -1,4 +1,4 @@
-package net.getnova.backend.module.cacti.endpoints;
+package net.getnova.backend.module.cacti.endpoint;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import javax.transaction.Transactional;
@@ -8,8 +8,8 @@ import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.annotations.ApiParameter;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiType;
-import net.getnova.backend.module.cacti.models.Genus;
-import net.getnova.backend.module.cacti.repositories.GenusRepository;
+import net.getnova.backend.module.cacti.model.Genus;
+import net.getnova.backend.module.cacti.repository.GenusRepository;
 
 import java.util.Optional;
 import java.util.UUID;

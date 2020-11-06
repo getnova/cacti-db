@@ -1,4 +1,4 @@
-package net.getnova.backend.module.cacti.endpoints;
+package net.getnova.backend.module.cacti.endpoint;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,7 @@ import net.getnova.backend.api.annotations.ApiEndpoint;
 import net.getnova.backend.api.annotations.ApiEndpointCollection;
 import net.getnova.backend.api.data.ApiResponse;
 import net.getnova.backend.api.data.ApiType;
-import net.getnova.backend.module.cacti.repositories.CareGroupRepository;
+import net.getnova.backend.module.cacti.repository.CareGroupRepository;
 
 @RequiredArgsConstructor
 @ApiEndpointCollection(id = "careGroup", description = "Handle all care groups.", type = ApiType.REST)
