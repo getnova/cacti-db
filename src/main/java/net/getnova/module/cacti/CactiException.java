@@ -1,4 +1,4 @@
-package net.getnova.backend.module.cacti;
+package net.getnova.module.cacti;
 
 import java.io.IOException;
 
