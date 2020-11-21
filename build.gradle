@@ -7,7 +7,7 @@ plugins {
   // id 'checkstyle'
 }
 
-group 'net.getnova.backend.module'
+group 'net.getnova.module'
 version version.toString().startsWith('v') ? version.toString().substring(1) : version
 version version.toString() == 'master-SNAPSHOT' ? "edge" : version
 
@@ -20,9 +20,9 @@ dependencies {
   annotationProcessor("org.springframework:spring-context-indexer:5.3.1")
   compileOnly('org.postgresql:postgresql:42.2.18')
 
-  compileOnly('net.getnova.backend:nova-api:edge') { changing(true) }
-  compileOnly('net.getnova.backend:nova-boot:edge') { changing(true) }
-  compileOnly('net.getnova.backend:nova-data-jpa:edge') { changing(true) }
-  compileOnly('net.getnova.backend:nova-json:edge') { changing(true) }
-  compileOnly('net.getnova.backend:nova-cdn:edge') { changing(true) }
+  compileOnly('net.getnova.framework:nova-api:edge') { changing(true) }
+  compileOnly('net.getnova.framework:nova-boot:edge') { changing(true) }
+  compileOnly('net.getnova.framework:nova-data-jpa:edge') { changing(true) }
+  compileOnly('net.getnova.framework:nova-json:edge') { changing(true) }
+  compileOnly('net.getnova.framework:nova-cdn:edge') { changing(true) }
 }

@@ -1,6 +1,6 @@
-package net.getnova.backend.module.cacti.repository;
+package net.getnova.module.cacti.repository;
 
-import net.getnova.backend.module.cacti.model.CareGroup;
+import net.getnova.module.cacti.model.CareGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

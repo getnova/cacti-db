@@ -1,10 +1,10 @@
-package net.getnova.backend.module.cacti.service;
+package net.getnova.module.cacti.service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import net.getnova.backend.module.cacti.model.CareGroup;
-import net.getnova.backend.module.cacti.repository.CareGroupRepository;
+import net.getnova.module.cacti.model.CareGroup;
+import net.getnova.module.cacti.repository.CareGroupRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

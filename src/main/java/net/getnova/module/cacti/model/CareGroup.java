@@ -1,4 +1,4 @@
-package net.getnova.backend.module.cacti.model;
+package net.getnova.module.cacti.model;
 
 import com.google.gson.JsonElement;
 import javax.persistence.Column;
@@ -9,9 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.getnova.backend.jpa.model.TableModel;
-import net.getnova.backend.json.JsonBuilder;
-import net.getnova.backend.json.JsonSerializable;
+import net.getnova.framework.jpa.model.TableModel;
+import net.getnova.framework.json.JsonBuilder;
+import net.getnova.framework.json.JsonSerializable;
 
 @Getter
 @Setter
