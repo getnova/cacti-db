@@ -6,7 +6,7 @@ repositories {
 }
 
 jar {
-  manifest.attributes([
+  manifest.attributes(
     'Specification-Title'     : project.name,
     'Specification-Vendor'    : 'Nova Project (https://github.com/getnova)',
     'Specification-Version'   : project.version,
@@ -16,7 +16,7 @@ jar {
     'Module-Version'          : project.version,
     'Module-Main-Class'       : 'net.getnova.module.cacti.CactiDatabase',
     'Automatic-Module-Name'   : 'nova.module.cactidb'
-  ])
+  )
 }
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_15
