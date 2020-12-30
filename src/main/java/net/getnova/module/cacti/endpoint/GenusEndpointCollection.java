@@ -8,24 +8,16 @@ import net.getnova.framework.api.annotations.ApiEndpointCollection;
 import net.getnova.framework.api.annotations.ApiParameter;
 import net.getnova.framework.api.data.ApiResponse;
 import net.getnova.framework.api.data.ApiType;
-import net.getnova.framework.api.handler.websocket.WebsocketApiModule;
-import net.getnova.framework.api.handler.websocket.WebsocketApiNotification;
 import net.getnova.module.cacti.model.Genus;
 import net.getnova.module.cacti.repository.GenusRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import reactor.core.publisher.Flux;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@ApiEndpointCollection(id = "genus", description = "Handle all genres.", type = ApiType.ALL)
+@ApiEndpointCollection(id = "genus", description = "Handle all genres.", type = ApiType.REST)
 public class GenusEndpointCollection {
 
-  @Lazy
-  @Autowired
-  private WebsocketApiModule websocketApiModule;
   private final GenusRepository genusRepository;
 
   @ApiEndpoint(id = "list", description = "Lists all genres.")
@@ -60,13 +52,5 @@ public class GenusEndpointCollection {
 
     this.genusRepository.delete(genus.get());
     return new ApiResponse(HttpResponseStatus.OK);
-  }
-
-  @ApiEndpoint(id = "hello", description = "")
-  public ApiResponse hello() {
-    Flux.fromIterable(websocketApiModule.getContexts())
-      .flatMap(context -> new WebsocketApiNotification("topic", "data").send(context.getOutbound()))
-      .subscribe();
-    return new ApiResponse(HttpResponseStatus.OK, "hello");
   }
 }
