@@ -1,21 +1,19 @@
 repositories {
-  maven {
-    url 'https://dl.bintray.com/getnova/maven'
-  }
-  jcenter()
+  mavenCentral()
+  maven { url('https://dl.bintray.com/getnova/maven') }
 }
 
 jar {
   manifest.attributes(
-    'Specification-Title'     : project.name,
-    'Specification-Vendor'    : 'Nova Project (https://github.com/getnova)',
-    'Specification-Version'   : project.version,
-    'Implementation-Vendor'   : 'Nova Project (https://github.com/getnova)',
+    'Specification-Title': project.name,
+    'Specification-Vendor': 'Nova Project (https://github.com/getnova)',
+    'Specification-Version': project.version,
+    'Implementation-Vendor': 'Nova Project (https://github.com/getnova)',
     'Implementation-Timestamp': new Date().format('yyyy-MM-dd\'T\'HH:mm:ssZ'),
-    'Module-Name'             : project.name,
-    'Module-Version'          : project.version,
-    'Module-Main-Class'       : 'net.getnova.module.cacti.CactiDatabase',
-    'Automatic-Module-Name'   : 'nova.module.cactidb'
+    'Module-Name': project.name,
+    'Module-Version': project.version,
+    'Module-Main-Class': 'net.getnova.module.cacti.CactiDatabase',
+    'Automatic-Module-Name': 'nova.module.cactidb'
   )
 }
 
