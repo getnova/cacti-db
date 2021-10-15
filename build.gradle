@@ -17,7 +17,7 @@ apply from: "${rootDir}/gradle/test.gradle"
 // apply from: "${rootDir}/gradle/checkstyle.gradle"
 
 dependencies {
-  annotationProcessor("org.springframework:spring-context-indexer:5.3.3")
+  annotationProcessor("org.springframework:spring-context-indexer:5.3.11")
   compileOnly('org.postgresql:postgresql:42.2.18')
 
   compileOnly('net.getnova.framework:nova-api:2.0.0')
