@@ -58,7 +58,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew :shadowJar --no-daemon
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: nova-cacti-db
           path: build/libs
