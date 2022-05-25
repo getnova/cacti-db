@@ -18,7 +18,7 @@ apply from: "${rootDir}/gradle/test.gradle"
 
 dependencies {
   annotationProcessor("org.springframework:spring-context-indexer:5.3.3")
-  compileOnly('org.postgresql:postgresql:42.2.18')
+  compileOnly('org.postgresql:postgresql:42.3.6')
 
   compileOnly('net.getnova.framework:nova-api:2.0.0')
   compileOnly('net.getnova.framework:nova-boot:2.0.0')
